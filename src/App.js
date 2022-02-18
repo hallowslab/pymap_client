@@ -1,16 +1,16 @@
-import { Outlet } from "react-router-dom";
-import './App.css';
+import { Outlet } from 'react-router-dom'
+import './App.css'
 import Menu from './components/menu'
 
 function App() {
   return (
     <div className="App">
       <header>
-        <Menu/>
+        <Menu />
       </header>
-        <Outlet/>
+      <Outlet />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -1,6 +1,6 @@
 {
   "name": "client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
@@ -23,23 +23,9 @@
     "eject": "react-scripts eject",
     "prepare": "husky install"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "echo 1"
-    }
-  },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "prettier --single-quote --write"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest",
-      "plugin:prettier/recommended"
-    ]
+    "src/**/*.js": "eslint --cache --fix",
+    "src/**/*.{json,css,md}": "prettier --write"
   },
   "browserslist": {
     "production": [
@@ -56,12 +42,12 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "eslint": "^8.9.0",
-    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-prettier": "^8.4.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^7.0.4",
     "lint-staged": "^12.3.4",
-    "prettier": "2.5.1",
+    "prettier": "^2.5.1",
     "source-map-explorer": "^2.5.2"
   }
 }
