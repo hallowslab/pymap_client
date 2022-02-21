@@ -13,9 +13,7 @@ export default function TransferRaw() {
     const handleChange = () => {
         // Split the lines
         if (source === '' || destination === '' || input.length <= 5) {
-            alert(
-                'Your input seems to be invalid, check the values in the browser console'
-            )
+            alert('Your input seems to be invalid, check the values in the browser console')
             console.log(
                 `Input : ${input}\nSource: ${source}\nDestination: ${destination}`
             )
