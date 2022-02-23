@@ -1,3 +1,5 @@
+import React from 'react'
+
 export default function Logs() {
   return (
     <main style={{ padding: '1rem 0' }}>

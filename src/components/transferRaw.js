@@ -19,11 +19,7 @@ export default function TransferRaw() {
             )
             return
         }
-        const DATA = {
-            destination: destination,
-            source: source,
-            input: input.split(/\r?\n/),
-        }
+        const DATA = JSON.stringify({"destination": destination,"source": source,"input": input.split(/\r?\n/),})
         // make API POST
         const params = {
             headers: { 'content-type': 'application/json; charset=UTF-8' },
@@ -33,10 +29,10 @@ export default function TransferRaw() {
         console.log(DATA)
         fetch(APIURL, params)
             .then((data) => {
-                console.log(`Data: ${data.json()}`)
+                return data.json()
             })
             .then((res) => {
-                console.log(`Response: ${res}`)
+                console.log(res)
             })
             .catch((err) => console.log(`Error: ${err}`))
     }
