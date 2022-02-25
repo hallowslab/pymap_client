@@ -3,6 +3,7 @@ import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
 import TransferRaw from '../components/transferRaw.js'
+import TransferManual from '../components/transferManual.js'
 
 function a11yProps(index) {
     return {
@@ -23,7 +24,7 @@ export default function Transfer() {
     if (value === 0) {
         mainContent = <TransferRaw />
     } else {
-        mainContent = <h1>WIP</h1>
+        mainContent = <TransferManual/>
     }
 
     return (
