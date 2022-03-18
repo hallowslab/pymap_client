@@ -1,9 +1,8 @@
 import React from 'react'
-import Container from '@mui/material/Container'
-import Grid from '@mui/material/Grid'
+import {Container, Grid} from '@mui/material'
 
-import OptionsList from "../components/otherOptions"
-import CommonOptions from '../components/commonOptions'
+import {OptionsList} from "../components/otherOptions"
+import {CommonOptions} from '../components/commonOptions'
 
 export default function Options() {
   return (

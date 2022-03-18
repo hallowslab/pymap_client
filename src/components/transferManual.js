@@ -1,13 +1,17 @@
-import React, {useState} from 'react'
-import { Stack, Container } from '@mui/material'
-import { IconButton, Icon } from '@mui/material';
+import React, {useState, useEffect, useRef} from 'react'
+import { Stack, Container, IconButton, Icon, Button } from '@mui/material';
 
-import ManualSyncComponent from './manualSyncComponent.js'
+import {ManualSyncComponent} from './manualSyncComponent.js'
 
-export default function TransferManual() {
+export function TransferManual() {
     const [listCount, setListCount] = useState(1)
+    const syncButtonRef = useRef(null)
+    
     let componentsToRender = Array.from({length: listCount}, (_, i) => i + 1)
-
+    
+    const scrollToSyncButton = () => {
+        syncButtonRef.current && syncButtonRef.current.scrollIntoView({behavior: "smooth"})
+    }
 
     const changeCount = (opr,increment) => {
         if (opr == "plus") {
@@ -19,7 +23,10 @@ export default function TransferManual() {
         } else {console.error(`Unkown operation ${opr}`)}
     }
 
-
+    useEffect(()=>{
+        scrollToSyncButton()
+    }, [listCount])
+    
     return (
         <Container>
             <Stack>
@@ -31,6 +38,7 @@ export default function TransferManual() {
             <IconButton onClick={()=>{changeCount("plus", 1)}} style={{float: "right", marginTop: "1em"}}>
                 <Icon >expand_more</Icon>
             </IconButton>
+            <Button ref={syncButtonRef} style={{marginTop: "4em"}} onClick={()=>{return false}}>Start Sync</Button>
         </Container>
     )
 }

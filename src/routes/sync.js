@@ -1,13 +1,12 @@
 import * as React from 'react'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
-import Box from '@mui/material/Box'
-import TransferRaw from '../components/transferRaw.js'
-import TransferManual from '../components/transferManual.js'
+import {Tabs, Tab, Box} from '@mui/material'
+
+import {TransferRaw} from '../components/transferRaw.js'
+import {TransferManual} from '../components/transferManual.js'
 
 function a11yProps(index) {
     return {
-        id: `simple-tab-${index}`,
+        id: `sync-tab-${index}`,
         'aria-controls': `tabpanel-${index}`,
     }
 }

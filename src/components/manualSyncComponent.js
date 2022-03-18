@@ -2,7 +2,7 @@ import React from 'react'
 import { Grid, TextField } from '@mui/material'
 
 
-export default function ManualSyncComponent() {
+export function ManualSyncComponent() {
     return (
         <Grid container spacing={2} style={{marginTop: "1em"}}>
             <Grid item xs={3}>

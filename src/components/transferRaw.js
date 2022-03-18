@@ -1,32 +1,29 @@
 import React, { useState } from 'react'
-import TextareaAutosize from '@mui/material/TextareaAutosize'
-import Button from '@mui/material/Button'
-import TextField from '@mui/material/TextField'
-import Grid from '@mui/material/Grid'
+import {TextareaAutosize, Button, TextField, Grid, Checkbox, FormControlLabel} from '@mui/material'
 
-export default function TransferRaw() {
-    const APIURL = 'http://127.0.0.1:5000/api/v1'
+export function TransferRaw() {
+    const APIURL = 'http://127.0.0.1:5000/v1'
     const [input, setInput] = useState('')
     const [source, setSource] = useState('')
     const [destination, setDestination] = useState('')
+    const [dryRun, setDryRun] = useState(false)
 
     const handleChange = () => {
         // Split the lines
         if (source === '' || destination === '' || input.length <= 5) {
             alert('Your input seems to be invalid, check the values in the browser console')
-            console.log(
+            console.error(
                 `Input : ${input}\nSource: ${source}\nDestination: ${destination}`
             )
             return
         }
-        const DATA = JSON.stringify({"destination": destination,"source": source,"input": input.split(/\r?\n/),})
+        const DATA = JSON.stringify({"destination": destination,"source": source,"input": input.split(/\r?\n/),"dry_run": dryRun})
         // make API POST
         const params = {
             headers: { 'content-type': 'application/json; charset=UTF-8' },
             body: DATA,
             method: 'POST',
         }
-        console.log(DATA)
         fetch(APIURL, params)
             .then((data) => {
                 return data.json()
@@ -67,6 +64,7 @@ export default function TransferRaw() {
                 </Grid>
             </Grid>
             <Button onClick={handleChange}>Start Sync</Button>
+            <FormControlLabel style={{margin: "0 auto 0 1em"}} control={<Checkbox onChange={()=> {setDryRun(!dryRun)}}/>} label="Dry run" />
         </React.Fragment>
     )
 }

@@ -1,9 +1,12 @@
 import React from 'react'
+import {Container} from '@mui/material'
+
+import {LogFiles} from '../components/logsComponent.js'
 
 export default function Logs() {
   return (
-    <main style={{ padding: '1rem 0' }}>
-      <h2>Logs</h2>
-    </main>
+    <Container style={{marginTop: "1em"}}>
+      <LogFiles/>
+    </Container>
   )
 }
