@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import {TextareaAutosize, Button, TextField, Grid, Checkbox, FormControlLabel} from '@mui/material'
 
 export function TransferRaw() {
-    const APIURL = 'http://127.0.0.1:5000/v1'
+    const APIURL = '/v1'
     const [input, setInput] = useState('')
     const [source, setSource] = useState('')
     const [destination, setDestination] = useState('')
@@ -30,8 +30,12 @@ export function TransferRaw() {
             })
             .then((res) => {
                 console.log(res)
+                this.props.history.push("/logs")
             })
-            .catch((err) => console.log(`Error: ${err}`))
+            .catch((err) => {
+                alert("An error has occurred, please check the console")
+                console.error(`Error: ${err}`)
+            })
     }
     // The difference is that the onInput event occurs immediately after the value of an element has changed,
     // while onChange occurs when the element loses focus,

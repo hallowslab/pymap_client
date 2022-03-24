@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom'
 import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button,MenuItem} from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -7,7 +7,7 @@ const pages = ['Sync', 'Logs', 'Options']
 
 const ResponsiveAppBar = () => {
     const navigate = useNavigate()
-    const [anchorElNav, setAnchorElNav] = React.useState(null)
+    const [anchorElNav, setAnchorElNav] = useState(null)
 
     const handleOpenNavMenu = (event) => {
         setAnchorElNav(event.currentTarget)
@@ -113,6 +113,7 @@ const ResponsiveAppBar = () => {
                             </Button>
                         ))}
                     </Box>
+                {props.latestTask}
                 </Toolbar>
             </Container>
         </AppBar>
