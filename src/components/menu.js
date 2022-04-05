@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button,MenuItem} from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 
-const pages = ['Sync', 'Logs', 'Options']
+const pages = ['Sync', 'Tasks', 'Options']
 
 const ResponsiveAppBar = () => {
     const navigate = useNavigate()
@@ -113,7 +113,6 @@ const ResponsiveAppBar = () => {
                             </Button>
                         ))}
                     </Box>
-                {props.latestTask}
                 </Toolbar>
             </Container>
         </AppBar>

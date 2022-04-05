@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {TextareaAutosize, Button, TextField, Grid, Checkbox, FormControlLabel} from '@mui/material'
 
 export function TransferRaw() {
-    const APIURL = '/v1'
+    const APIURL = '/api/v1/sync'
+    const navigate = useNavigate()
     const [input, setInput] = useState('')
     const [source, setSource] = useState('')
     const [destination, setDestination] = useState('')
@@ -30,7 +32,7 @@ export function TransferRaw() {
             })
             .then((res) => {
                 console.log(res)
-                this.props.history.push("/logs")
+                navigate("/tasks")
             })
             .catch((err) => {
                 alert("An error has occurred, please check the console")
