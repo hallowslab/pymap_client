@@ -47,7 +47,8 @@ export function LogsComponent() {
     }
 
     const LogModal = (logPath) => {
-        content = fetchLog(logPath)
+        let content = fetchLog(logPath)
+        console.log(content)
         return (
             <React.Fragment>
                 <Modal
