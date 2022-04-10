@@ -21,8 +21,7 @@
     "build": "cross-env BUILD_PATH=../build react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install",
-    "build_deps_cache": "cross-env cat package.json | jq -S '. | with_entries(select (.key as $k | ['dependencies', 'devDependencies'] | index($k)))' > package-dependencies.json"
+    "prepare": "husky install"
   },
   "lint-staged": {
     "src/**/*.js": "eslint --cache --fix",

@@ -8,6 +8,7 @@ import Sync from './routes/sync'
 import Options from './routes/options'
 import Tasks from './routes/tasks'
 import Logs from './routes/logs'
+import LogFile from './routes/logFile'
 import Intro from './routes/intro'
 
 ReactDOM.render(
@@ -19,6 +20,7 @@ ReactDOM.render(
         <Route path="options" element={<Options />} />
         <Route path="tasks" element={<Tasks />}/>
         <Route path="tasks/:taskID" element={<Logs/>}/>
+        <Route path="tasks/:taskID/:logID" element={<LogFile/>}/>
       </Route>
     </Routes>
   </BrowserRouter>,

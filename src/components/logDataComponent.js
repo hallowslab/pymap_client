@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react'
-import {Stack, Link, } from '@mui/material'
+import {Stack, } from '@mui/material'
 import { useParams } from 'react-router-dom'
 
-export function LogsComponent() {
-    let {taskID} = useParams()
-    const [logs, setLogs] = useState([])
+export function LogDataComponent() {
+    let {taskID,logID} = useParams()
+    const [logData, setLogData] = useState("")
 
     const fetchData = () => {
-        const APIURL = `/api/v1/tasks/${taskID}`
+        const APIURL = `/api/v1/tasks/${taskID}/${logID}`
         const params = {
             headers: { 'accepts': 'application/json' },
             method: 'GET',
@@ -17,8 +17,8 @@ export function LogsComponent() {
                 return data.json()
             })
             .then((res) => {
-                if (res.logs) {
-                    setLogs(res.logs)
+                if (res.content) {
+                    setLogData(res.content)
                 }
                 else if (res.error) {
                     console.error(`API Error: ${res.error} -> ${res.message}`)
@@ -28,12 +28,11 @@ export function LogsComponent() {
     }
 
 
-
     useEffect( () => {
         fetchData()
         const dataTimer = setInterval(()=>{
             fetchData()
-        }, 20000)
+        }, 10000)
         return () => {clearInterval(dataTimer)}
      }, [])
 
@@ -41,8 +40,8 @@ export function LogsComponent() {
     return(
         <React.Fragment>
             <Stack spacing={2}>
-                <h2>Log files</h2>
-                {logs?.map( (val, index) => <Link key={"log_"+index} href={`${taskID}/${val}`}>{val}</Link> )}
+                <h2>Task ID: {taskID} Log file: {logID}</h2>
+                <p>{logData}</p>
             </Stack>
         </React.Fragment>
     )
