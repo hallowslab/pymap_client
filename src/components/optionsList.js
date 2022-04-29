@@ -28,10 +28,6 @@ export function OptionsList() {
                     <ListItemText primary={`--usecache`} />
                     <Switch {...label} defaultChecked />
                 </ListItem>
-                <ListItem disablePadding>
-                    <ListItemText primary={`--logdir`}/>
-                    <Input defaultValue="/home/pymap/imap_logs"/>
-                </ListItem>
                 </List>
             </nav>
             <Divider />

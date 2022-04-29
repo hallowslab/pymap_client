@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import { DataGrid } from '@mui/x-data-grid';
 
-import { useParams } from 'react-router-dom'
-
+import { useNavigate, useParams } from 'react-router-dom'
 
 // TODO: read this https://stackoverflow.com/questions/64331095/how-to-add-a-button-to-every-row-in-mui-datagrid
 
@@ -12,16 +11,30 @@ const columns = [
     {
       field: 'logFile',
       headerName: 'Log File',
-      width: 150,
-      editable: false,
+      width: 750,
+    },
+    {
+        field: "startTime",
+        headerName: "Start Time",
+        width: 200,
+    },
+    {
+        field: "endTime",
+        headerName: "End Time",
+        width: 200,
+    },
+    {
+        field: "status",
+        headerName: "Status",
+        width: 100
     }
   ];
   
 
 export function LogsComponent() {
     let {taskID} = useParams()
-    const [logs, setLogs] = useState([])
-    const [rows, setRows] = useState([{id: 0, logFile: "fetching.txt"}])
+    const navigate = useNavigate()
+    const [rows, setRows] = useState([{id: 0, logFile: "fetching....."}])
 
     const fetchData = () => {
         const APIURL = `/api/v1/tasks/${taskID}`
@@ -35,7 +48,7 @@ export function LogsComponent() {
             })
             .then((res) => {
                 if (res.logs) {
-                    setLogs(res.logs)
+                    setRows(res.logs?.map( (val, index) => {return {id: index+1, logFile: val}} ))
                 }
                 else if (res.error) {
                     console.error(`API Error: ${res.error} -> ${res.message}`)
@@ -48,35 +61,31 @@ export function LogsComponent() {
 
     useEffect( () => {
         fetchData()
-        setRows(logs?.map( (val, index) => {return {id: index, logFile: val}} ))
         const dataTimer = setInterval(()=>{
-            setRows(logs?.map( (val, index) => {return {id: index, logFile: val}} ))
             fetchData()
         }, 20000)
         return () => {clearInterval(dataTimer)}
     }, [])
     
-    const handleOnCellClick = (params) => {S
-        console.log(params)
+    const handleOnCellClick = (params) => {
+        console.log(params.row.logFile)
+        navigate(params.row.logFile)
     }
+
 
 
     return(
         <React.Fragment>
-            <div style={{height: 500}}>
-                <h2>Log files</h2>
+            <div style={{height: "80vh"}}>
+                <h2>Task ID: {taskID} </h2>
                 <DataGrid
                     rows={rows}
                     columns={columns}
-                    pageSize={5}
-                    rowsPerPageOptions={[5]}
-                    checkboxSelection
+                    pageSize={9}
+                    rowsPerPageOptions={[8]}
                     disableSelectionOnClick
                     onCellClick={handleOnCellClick}
                 />
-                {
-                //logs?.map( (val, index) => <Link key={"log_"+index} href={`${taskID}/${val}`}>{val}</Link> )
-                }
             </div>
         </React.Fragment>
     )

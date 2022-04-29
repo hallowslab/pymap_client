@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {TextareaAutosize, Button, TextField, Grid, Checkbox, FormControlLabel} from '@mui/material'
+import {TextareaAutosize, Button, TextField, Grid, Checkbox, FormControlLabel, CircularProgress} from '@mui/material'
 
 export function TransferRaw() {
     const APIURL = '/api/v1/sync'
     const navigate = useNavigate()
     const [input, setInput] = useState('')
+    const [redirecting, setRedirecting] = useState(false)
     const [source, setSource] = useState('')
     const [destination, setDestination] = useState('')
     const [dryRun, setDryRun] = useState(false)
@@ -32,17 +33,25 @@ export function TransferRaw() {
             })
             .then((res) => {
                 console.log(res)
-                navigate("/tasks")
+                // TODO: add a div or something to indicate loading
+                setRedirecting(true)
+                setTimeout( () => {
+                    navigate("/tasks/" + res.taskID)
+                }, 1000)
             })
             .catch((err) => {
                 alert("An error has occurred, please check the console")
                 console.error(`Error: ${err}`)
             })
     }
+
     // The difference is that the onInput event occurs immediately after the value of an element has changed,
     // while onChange occurs when the element loses focus,
     return (
         <React.Fragment>
+            <div style={{marginTop: '0.5em'}}>
+                {redirecting === true ? <CircularProgress /> : <span/>}
+            </div>
             <Grid style={{ marginTop: '1em' }} container spacing={2}>
                 <Grid item xs={6}>
                     <TextField

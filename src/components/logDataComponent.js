@@ -46,7 +46,7 @@ export function LogDataComponent() {
                     width: "900",
                     height: "900"
                 }}>
-                    <TextField id="filled-basic" value={logData} variant="filled" multiline minRows={4} style={{width: "90%"}}/>
+                    <TextField id="filled-basic" value={logData} variant="filled" multiline minRows={4} maxRows={20} style={{width: "90%"}}/>
                 </Box>
             </Stack>
         </React.Fragment>
