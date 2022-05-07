@@ -49,9 +49,7 @@ export function TransferRaw() {
     // while onChange occurs when the element loses focus,
     return (
         <React.Fragment>
-            <div style={{marginTop: '0.5em'}}>
-                {redirecting === true ? <CircularProgress /> : <span/>}
-            </div>
+            {redirecting === true ? <CircularProgress style={{margin: '0.5em'}}/> : <span/>}
             <Grid style={{ marginTop: '1em' }} container spacing={2}>
                 <Grid item xs={6}>
                     <TextField
