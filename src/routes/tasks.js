@@ -5,7 +5,7 @@ import {TasksComponent} from '../components/tasksComponent'
 
 export default function Tasks() {
   return (
-    <Container style={{marginTop: "1em"}}>
+    <Container style={{maxWidth: "95vw", marginTop: "1em"}}>
       <TasksComponent/>
     </Container>
   )

@@ -1,10 +1,36 @@
 import React, {useEffect, useState} from 'react'
-import {Stack, Link} from '@mui/material'
+//import {Stack, Link} from '@mui/material'
+import { DataGrid } from '@mui/x-data-grid';
+import { useNavigate } from 'react-router-dom';
 
 
+const columns = [
+    { field: 'id', headerName: 'ID', width: 90 },
+    {
+      field: 'taskID',
+      headerName: 'Task ID',
+      width: 450,
+    },
+    {
+        field: "source",
+        headerName: "Source",
+        width: 200,
+    },
+    {
+        field: "dest",
+        headerName: "Destination",
+        width: 200,
+    },
+    {
+        field: "domain",
+        headerName: "Domain",
+        width: 300
+    }
+  ];
 
 export function TasksComponent() {
-    const [tasks, setTasks] = useState(null)
+    const [tasks, setTasks] = useState([{id: 0, taskID: "fetching....."}])
+    const navigate = useNavigate()
 
     const fetchData = () => {
         const APIURL = '/api/v1/tasks'
@@ -18,7 +44,13 @@ export function TasksComponent() {
             })
             .then((res) => {
                 if (res.tasks) {
-                    setTasks(res.tasks)
+                    console.log(res.taskStatus)
+                    setTasks(res.tasks.map( (val, index) => {
+                        return {
+                            id: index+1, ...val
+                        }
+                    }))
+                    //setTasks(res.tasks)
                 }
                 else if (res.error) {console.error(`API Error: ${res.error} -> ${res.message}`)}
             })
@@ -31,16 +63,31 @@ export function TasksComponent() {
             fetchData()
         }, 20000)
         return () => clearInterval(dataTimer)
-     }, [])
+    }, [])
 
+    
+    const handleOnCellClick = (params) => {
+        console.log(params.row.taskID)
+        navigate(params.row.taskID)
+    }
 
-
+    //<Stack spacing={2}>
+    //    { tasks?.map( (val, index) => <Link key={"task_"+index} href={`tasks/${val}`}>{val}</Link> )}
+    //</Stack>
     return(
         <React.Fragment>
-            <Stack spacing={2}>
+            <div style={{height: "80vh"}}>
                 <h2>Latest tasks</h2>
-                { tasks?.map( (val, index) => <Link key={"task_"+index} href={`tasks/${val}`}>{val}</Link> )}
-            </Stack>
+                <DataGrid
+                    rows={tasks}
+                    columns={columns}
+                    pageSize={9}
+                    rowsPerPageOptions={[8]}
+                    disableSelectionOnClick
+                    onCellClick={handleOnCellClick}
+                />
+            </div>
+            
         </React.Fragment>
     )
 }
