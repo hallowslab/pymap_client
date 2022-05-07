@@ -1,11 +1,62 @@
-import React, { useState } from 'react'
-import {Button, Divider,Box, List, ListItem, ListItemText, Switch, Input} from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import {Button, Box, TextareaAutosize, LinearProgress} from '@mui/material'
+
+function getStoredInput () {
+    let extraArgs = localStorage.getItem("extraArgs")
+    if (extraArgs.length == 0) {
+        return ""
+    }
+    return extraArgs
+}
 
 
-export function OptionsList() {
+function OptionsList() {
+    const [uInput, setUInput] = useState("")
+    const [saving, setSaving] = useState(false)
+
+    useEffect(()=>{
+        setUInput(getStoredInput())
+    }, [])
+
+    const saveToLocalStorage = () => {
+        setSaving(true)
+        try {
+            localStorage.setItem("extraArgs")
+        } catch(e) {
+            alert("Unexpected error occured")
+        }
+
+    }
+
+    return(
+        <React.Fragment>
+            {saving === true ? <LinearProgress style={{margin: '0.5em'}}/> : <span/>}
+            <Box sx={{ maxWidth: "95vw", margin: "auto", bgcolor: 'background.paper' }}>
+                <h2>Work in Progress....</h2>
+                <p>
+                    You can specify additional arguments here, do not add newlines or line carriages (Tab/Enter) just one big string
+                    <p>EX:{" "}<code>--nossl1 --notls1 --gmail2 --folder &quot;INBOX&quot;</code></p>
+                </p>
+                <p>If you need to encase a variable please use double quotes &quot; ... &quot; and not single &apos; ... &apos;</p>
+                <TextareaAutosize
+                            aria-label="empty textarea"
+                            minRows={5}
+                            placeholder={"--arg1 --arg2"}
+                            style={{ width: '100%' }}
+                            value={uInput}
+                            onInput={(e) => setUInput(e.target.value)}
+                        />
+            </Box>
+            <Button onClick={saveToLocalStorage}>Save</Button>
+        </React.Fragment>
+    )
+}
+
+
+export {getStoredInput, OptionsList}
+
+/* export function OptionsList() {
     const [commonOptions,setCommonOptions] = useState({})
-
-    console.log(commonOptions,setCommonOptions)
 
     const label = { inputProps: { 'aria-label': 'Option switches' } };
     return(
@@ -73,4 +124,4 @@ export function OptionsList() {
             <Button>Save</Button>
         </Box>
     )
-}
+} */
