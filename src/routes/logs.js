@@ -1,11 +1,13 @@
 import React from 'react'
+import {Container} from '@mui/material'
+
 
 import { LogsComponent } from '../components/logsComponent'
 
 export default function Logs() {
     return (
-        <React.Fragment>
+        <Container style={{maxWidth: "95vw", marginTop: "1em"}}>
             <LogsComponent/>
-        </React.Fragment>
+        </Container>
     )
 }

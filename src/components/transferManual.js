@@ -38,7 +38,7 @@ export function TransferManual() {
             <IconButton onClick={()=>{changeCount("plus", 1)}} style={{float: "right", marginTop: "1em"}}>
                 <Icon >expand_more</Icon>
             </IconButton>
-            <Button ref={syncButtonRef} style={{marginTop: "4em"}} onClick={()=>{return false}}>Start Sync</Button>
+            <Button ref={syncButtonRef} style={{marginTop: "4em"}} onClick={()=>{alert("This is not implemented yet")}}>Start Sync</Button>
         </Container>
     )
 }
