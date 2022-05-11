@@ -48,6 +48,7 @@ export function LogsComponent() {
             })
             .then((res) => {
                 if (res.logs) {
+                    console.log(res.logsStatus)
                     setRows(res.logs?.map( (val, index) => {return {id: index+1, logFile: val}} ))
                 }
                 else if (res.error) {
