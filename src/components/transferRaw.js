@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {TextareaAutosize, Button, TextField, Grid, Checkbox, FormControlLabel, CircularProgress} from '@mui/material'
+import Tooltip from '@mui/material/Tooltip';
 
 export function TransferRaw() {
     const APIURL = '/api/v1/sync'
@@ -10,17 +11,23 @@ export function TransferRaw() {
     const [source, setSource] = useState('')
     const [destination, setDestination] = useState('')
     const [dryRun, setDryRun] = useState(false)
+    const extraArgs = localStorage.getItem("extraArgs")
+
+    const HelpTooltip = `
+    Input the accounts and credentials as displayed in the placeholder, you can use the following separators: [ "blank space" | ,]
+    `
 
     const handleChange = () => {
         // Split the lines
         if (source === '' || destination === '' || input.length <= 5) {
             alert('Your input seems to be invalid, check the values in the browser console')
             console.error(
-                `Input : ${input}\nSource: ${source}\nDestination: ${destination}`
+                `Input : ${input}\nSource: ${source}\nDestination: ${destination}\nDry run: ${dryRun}\nExtra args: ${extraArgs}`
             )
             return
         }
-        const DATA = JSON.stringify({"destination": destination,"source": source,"input": input.split(/\r?\n/),"dry_run": dryRun})
+        console.log(extraArgs)
+        const DATA = JSON.stringify({"destination": destination,"source": source,"input": input.split(/\r?\n/),"dry_run": dryRun, "extra_args": extraArgs})
         // make API POST
         const params = {
             headers: { 'content-type': 'application/json; charset=UTF-8' },
@@ -33,7 +40,6 @@ export function TransferRaw() {
             })
             .then((res) => {
                 console.log(res)
-                // TODO: add a div or something to indicate loading
                 setRedirecting(true)
                 setTimeout( () => {
                     navigate("/tasks/" + res.taskID)
@@ -65,11 +71,21 @@ export function TransferRaw() {
                         onChange={(e) => setDestination(e.target.value)}
                     />
                 </Grid>
+                <Grid item xs={12}>
+                    <Tooltip title={HelpTooltip}>
+                        <Button>Hover for Help</Button>
+                    </Tooltip>
+                </Grid>
+                <Grid item xs={12}>
+                    <Tooltip title="^(?P<user1>[\w.-]+)*(?P<mail_provider1>@[\w.-]+)[ |,|\|]+(?P<pword1>.+)[ |,|\|]+(?P<user2>[\w.-]+)*(?P<mail_provider2>@[\w.-]+)[ |,|\|]+(?P<pword2>.+)$">
+                        <Button>Current Regex</Button>
+                    </Tooltip>
+                </Grid>
                 <Grid style={{ marginTop: '0.5em' }} item xs={12}>
                     <TextareaAutosize
                         aria-label="empty textarea"
                         minRows={5}
-                        placeholder="test@email.com Password123"
+                        placeholder='Source@Account Password Destination@Account Password&#10;test@email.com Password123 test@email.com Password123'
                         style={{ width: '70%' }}
                         value={input}
                         onInput={(e) => setInput(e.target.value)}

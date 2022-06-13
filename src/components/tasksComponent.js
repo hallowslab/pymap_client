@@ -43,6 +43,8 @@ export function TasksComponent() {
                 return data.json()
             })
             .then((res) => {
+                console.log(res)
+                // When the server fails to parse status the client doesn't display any info
                 if (res.tasks) {
                     console.log(res.taskStatus)
                     setTasks(res.tasks.map( (val, index) => {
@@ -67,6 +69,7 @@ export function TasksComponent() {
 
     
     const handleOnCellClick = (params) => {
+        console.log(params)
         console.log(params.row.taskID)
         navigate(params.row.taskID)
     }

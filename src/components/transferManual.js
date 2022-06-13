@@ -33,10 +33,10 @@ export function TransferManual() {
                 { componentsToRender.map( (i) => <ManualSyncComponent key={i}/> )}
             </Stack>
             <IconButton onClick={()=>{changeCount("minus", 1)}} style={{float: "left", marginTop: "1em"}}>
-                <Icon >expand_less</Icon>
+                <Icon>expand_less</Icon>
             </IconButton>
             <IconButton onClick={()=>{changeCount("plus", 1)}} style={{float: "right", marginTop: "1em"}}>
-                <Icon >expand_more</Icon>
+                <Icon>expand_more</Icon>
             </IconButton>
             <Button ref={syncButtonRef} style={{marginTop: "4em"}} onClick={()=>{alert("This is not implemented yet")}}>Start Sync</Button>
         </Container>

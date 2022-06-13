@@ -9,16 +9,13 @@ export function ManualSyncComponent() {
                 <TextField label="Source"/>
                 <TextField label="Destination"/>
             </Grid>
-            <Grid item xs={3}>
+            <Grid item xs={5}>
                 <TextField label="User 1"/>
                 <TextField label="User 2"/>
             </Grid>
             <Grid item xs={3}>
-                <TextField label="Password 1"/>
-                <TextField label="Password 2"/>
-            </Grid>
-            <Grid item xs={3}>
-                <TextField label="Extra Args"/>
+                <TextField type="password" label="Password 1"/>
+                <TextField type="password" label="Password 2"/>
             </Grid>
         </Grid>
     )
