@@ -84,8 +84,8 @@ export function TasksComponent() {
                 <DataGrid
                     rows={tasks}
                     columns={columns}
-                    pageSize={9}
-                    rowsPerPageOptions={[8]}
+                    pageSize={15}
+                    rowsPerPageOptions={[50]}
                     disableSelectionOnClick
                     onCellClick={handleOnCellClick}
                 />

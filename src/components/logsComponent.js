@@ -48,8 +48,11 @@ export function LogsComponent() {
             })
             .then((res) => {
                 if (res.logs) {
+                    console.log("Logs")
+                    console.log(res.logs)
+                    console.log("Log Status")
                     console.log(res.logsStatus)
-                    setRows(res.logs?.map( (val, index) => {return {id: index+1, logFile: val}} ))
+                    setRows(res.logs?.map( (val, index) => {return {id: index+1, ...val}} ))
                 }
                 else if (res.error) {
                     console.error(`API Error: ${res.error} -> ${res.message}`)
