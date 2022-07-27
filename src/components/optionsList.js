@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import {Button, Box, TextareaAutosize, LinearProgress} from '@mui/material'
+import {Button, Box, TextareaAutosize, LinearProgress, TextField} from '@mui/material'
 
-function getStoredInput () {
+function getStoredArgs () {
     let extraArgs = localStorage.getItem("extraArgs")
     //console.log(extraArgs)
     if (extraArgs) {
@@ -12,19 +12,33 @@ function getStoredInput () {
     return ""
 }
 
+function getStoredTimer () {
+    let timerValue = localStorage.getItem("timerValue")
+    //console.log(timerValue)
+    if (timerValue) {
+        //console.log("Reached here because")
+        //console.log(timerValue)
+        return timerValue
+    }
+    return 20000
+}
+
 
 function OptionsList() {
     const [uInput, setUInput] = useState("")
     const [saving, setSaving] = useState(false)
+    const [timerValue, setTimerValue] = useState(getStoredTimer)
 
     useEffect(()=>{
-        setUInput(getStoredInput())
+        setUInput(getStoredArgs())
+        setTimerValue(getStoredTimer())
     }, [])
 
     const saveToLocalStorage = () => {
         setSaving(true)
         try {
             localStorage.setItem("extraArgs", uInput)
+            localStorage.setItem("timerValue", timerValue)
             setSaving(false)
         } catch(e) {
             alert("Unexpected error occured")
@@ -51,6 +65,8 @@ function OptionsList() {
                             value={uInput}
                             onInput={(e) => setUInput(e.target.value)}
                         />
+                <h2>Other options</h2>
+                <TextField id="logs-refresh-timer" label="Refresh Timer" helperText="Time between API requests in MS" defaultValue={timerValue} onChange={(e)=>{setTimerValue(e.target.value)}}/>
             </Box>
             <Button onClick={saveToLocalStorage}>Save</Button>
         </React.Fragment>
@@ -58,4 +74,4 @@ function OptionsList() {
 }
 
 
-export {getStoredInput, OptionsList}
+export {getStoredArgs, getStoredTimer, OptionsList}

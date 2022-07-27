@@ -31,6 +31,7 @@ const columns = [
 export function TasksComponent() {
     const [tasks, setTasks] = useState([{id: 0, taskID: "fetching....."}])
     const navigate = useNavigate()
+    const timerValue = localStorage.getItem("timerValue") ? localStorage.getItem("timerValue") : 20000
 
     const fetchData = () => {
         const APIURL = '/api/v1/tasks'
@@ -46,7 +47,7 @@ export function TasksComponent() {
                 console.log(res)
                 // When the server fails to parse status the client doesn't display any info
                 if (res.tasks) {
-                    console.log(res.taskStatus)
+                    // console.log(res.taskStatus)
                     setTasks(res.tasks.map( (val, index) => {
                         return {
                             id: index+1, ...val
@@ -63,7 +64,7 @@ export function TasksComponent() {
         fetchData()
         const dataTimer = setInterval(() => {
             fetchData()
-        }, 20000)
+        }, timerValue)
         return () => clearInterval(dataTimer)
     }, [])
 

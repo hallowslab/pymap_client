@@ -35,6 +35,7 @@ export function LogsComponent() {
     let {taskID} = useParams()
     const navigate = useNavigate()
     const [rows, setRows] = useState([{id: 0, logFile: "fetching....."}])
+    const timerValue = localStorage.getItem("timerValue") ? localStorage.getItem("timerValue") : 20000
 
     const fetchData = () => {
         const APIURL = `/api/v1/tasks/${taskID}`
@@ -42,11 +43,16 @@ export function LogsComponent() {
             headers: { 'accepts': 'application/json' },
             method: 'GET',
         }
+        console.log("Fetching API")
+        console.log("Timer Value")
+        console.log(timerValue)
         fetch(APIURL, params)
             .then((data) => {
                 return data.json()
             })
             .then((res) => {
+                console.log("Res is ")
+                console.log(res)
                 if (res.logs) {
                     console.log("Logs")
                     console.log(res.logs)
@@ -66,8 +72,9 @@ export function LogsComponent() {
     useEffect( () => {
         fetchData()
         const dataTimer = setInterval(()=>{
+            console.log(timerValue)
             fetchData()
-        }, 20000)
+        }, timerValue)
         return () => {clearInterval(dataTimer)}
     }, [])
     
@@ -82,6 +89,7 @@ export function LogsComponent() {
         <React.Fragment>
             <div style={{height: "80vh"}}>
                 <h2>Task ID: {taskID} </h2>
+                
                 <DataGrid
                     rows={rows}
                     columns={columns}

@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom'
 export function LogDataComponent() {
     let {taskID,logID} = useParams()
     const [logData, setLogData] = useState("")
+    const timerValue = localStorage.getItem("timerValue") ? localStorage.getItem("timerValue") : 20000
+
 
     const fetchData = () => {
         const APIURL = `/api/v1/tasks/${taskID}/${logID}`
@@ -31,8 +33,9 @@ export function LogDataComponent() {
     useEffect( () => {
         fetchData()
         const dataTimer = setInterval(()=>{
+            console.log(timerValue)
             fetchData()
-        }, 10000)
+        }, timerValue)
         return () => {clearInterval(dataTimer)}
      }, [])
 
