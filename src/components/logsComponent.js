@@ -26,7 +26,7 @@ const columns = [
     {
         field: "status",
         headerName: "Status",
-        width: 100
+        width: 300
     }
   ];
   
