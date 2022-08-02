@@ -47,8 +47,13 @@ export function TasksComponent() {
                 console.log(res)
                 // When the server fails to parse status the client doesn't display any info
                 if (res.tasks) {
-                    // console.log(res.taskStatus)
-                    setTasks(res.tasks.map( (val, index) => {
+                    let new_tasks = res.tasks
+                    new_tasks = new_tasks.filter((task) => {
+                        if (!task.error) {
+                            return task
+                        }
+                    })
+                    setTasks(new_tasks.map( (val, index) => {
                         return {
                             id: index+1, ...val
                         }

@@ -93,7 +93,7 @@ export function TransferRaw() {
                 </Grid>
             </Grid>
             <Button onClick={handleChange}>Start Sync</Button>
-            <FormControlLabel style={{margin: "0 auto 0 1em"}} control={<Checkbox onChange={()=> {setDryRun(!dryRun)}}/>} label="Dry run" />
+            <FormControlLabel disabled style={{margin: "0 auto 0 1em"}} control={<Checkbox onChange={()=> {setDryRun(!dryRun)}}/>} label="Dry run" />
         </React.Fragment>
     )
 }
