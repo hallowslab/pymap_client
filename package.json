@@ -1,6 +1,6 @@
 {
   "name": "pymap_client",
-  "version": "0.7.2",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.7.1",
