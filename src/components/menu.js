@@ -1,6 +1,16 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Button,MenuItem} from '@mui/material'
+import {
+    AppBar,
+    Box,
+    Toolbar,
+    IconButton,
+    Typography,
+    Menu,
+    Container,
+    Button,
+    MenuItem,
+} from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 
 const pages = ['Sync', 'Tasks', 'Options']
@@ -16,7 +26,7 @@ const ResponsiveAppBar = () => {
     const handleCloseNavMenu = () => {
         setAnchorElNav(null)
     }
-    
+
     const handleNavigation = (page) => {
         let new_page = page.toLowerCase()
         navigate(new_page)

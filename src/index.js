@@ -12,19 +12,19 @@ import LogFile from './routes/logFile'
 import Intro from './routes/intro'
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />}>
-        <Route path="/" element={<Intro />} />
-        <Route path="sync" element={<Sync />} />
-        <Route path="options" element={<Options />} />
-        <Route path="tasks" element={<Tasks />}/>
-        <Route path="tasks/:taskID" element={<Logs/>}/>
-        <Route path="tasks/:taskID/:logID" element={<LogFile/>}/>
-      </Route>
-    </Routes>
-  </BrowserRouter>,
-  document.getElementById('root')
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<App />}>
+                <Route path="/" element={<Intro />} />
+                <Route path="sync" element={<Sync />} />
+                <Route path="options" element={<Options />} />
+                <Route path="tasks" element={<Tasks />} />
+                <Route path="tasks/:taskID" element={<Logs />} />
+                <Route path="tasks/:taskID/:logID" element={<LogFile />} />
+            </Route>
+        </Routes>
+    </BrowserRouter>,
+    document.getElementById('root')
 )
 
 // If you want to start measuring performance in your app, pass a function

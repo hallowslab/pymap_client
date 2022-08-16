@@ -1,8 +1,8 @@
 import * as React from 'react'
-import {Tabs, Tab, Box} from '@mui/material'
+import { Tabs, Tab, Box } from '@mui/material'
 
-import {TransferRaw} from '../components/transferRaw.js'
-import {TransferManual} from '../components/transferManual.js'
+import { TransferRaw } from '../components/transferRaw.js'
+import { TransferManual } from '../components/transferManual.js'
 
 function a11yProps(index) {
     return {
@@ -23,7 +23,7 @@ export default function Transfer() {
     if (value === 0) {
         mainContent = <TransferRaw />
     } else {
-        mainContent = <TransferManual/>
+        mainContent = <TransferManual />
     }
 
     return (

@@ -1,44 +1,67 @@
-import React, {useState, useEffect, useRef} from 'react'
-import { Stack, Container, IconButton, Icon, Button } from '@mui/material';
+import React, { useState, useEffect, useRef } from 'react'
+import { Stack, Container, IconButton, Icon, Button } from '@mui/material'
 
-import {ManualSyncComponent} from './manualSyncComponent.js'
+import { ManualSyncComponent } from './manualSyncComponent.js'
 
 export function TransferManual() {
     const [listCount, setListCount] = useState(1)
     const syncButtonRef = useRef(null)
-    
-    let componentsToRender = Array.from({length: listCount}, (_, i) => i + 1)
-    
+
+    let componentsToRender = Array.from({ length: listCount }, (_, i) => i + 1)
+
     const scrollToSyncButton = () => {
-        syncButtonRef.current && syncButtonRef.current.scrollIntoView({behavior: "smooth"})
+        syncButtonRef.current &&
+            syncButtonRef.current.scrollIntoView({ behavior: 'smooth' })
     }
 
-    const changeCount = (opr,increment) => {
-        if (opr == "plus") {
+    const changeCount = (opr, increment) => {
+        if (opr == 'plus') {
             let newCount = listCount + increment
             setListCount(newCount)
-        } else if (opr == "minus" && listCount > increment) {
+        } else if (opr == 'minus' && listCount > increment) {
             let newCount = listCount - increment
             setListCount(newCount)
-        } else {console.error(`Unkown operation ${opr}`)}
+        } else {
+            console.error(`Unkown operation ${opr}`)
+        }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         scrollToSyncButton()
     }, [listCount])
-    
+
     return (
         <Container>
             <Stack>
-                { componentsToRender.map( (i) => <ManualSyncComponent key={i}/> )}
+                {componentsToRender.map((i) => (
+                    <ManualSyncComponent key={i} />
+                ))}
             </Stack>
-            <IconButton onClick={()=>{changeCount("minus", 1)}} style={{float: "left", marginTop: "1em"}}>
+            <IconButton
+                onClick={() => {
+                    changeCount('minus', 1)
+                }}
+                style={{ float: 'left', marginTop: '1em' }}
+            >
                 <Icon>expand_less</Icon>
             </IconButton>
-            <IconButton onClick={()=>{changeCount("plus", 1)}} style={{float: "right", marginTop: "1em"}}>
+            <IconButton
+                onClick={() => {
+                    changeCount('plus', 1)
+                }}
+                style={{ float: 'right', marginTop: '1em' }}
+            >
                 <Icon>expand_more</Icon>
             </IconButton>
-            <Button ref={syncButtonRef} style={{marginTop: "4em"}} onClick={()=>{alert("This is not implemented yet")}}>Start Sync</Button>
+            <Button
+                ref={syncButtonRef}
+                style={{ marginTop: '4em' }}
+                onClick={() => {
+                    alert('This is not implemented yet')
+                }}
+            >
+                Start Sync
+            </Button>
         </Container>
     )
 }

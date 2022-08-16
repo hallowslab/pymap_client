@@ -1,42 +1,43 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 //import {Stack, Link} from '@mui/material'
-import { DataGrid } from '@mui/x-data-grid';
-import { useNavigate } from 'react-router-dom';
-
+import { DataGrid } from '@mui/x-data-grid'
+import { useNavigate } from 'react-router-dom'
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
-      field: 'taskID',
-      headerName: 'Task ID',
-      width: 450,
+        field: 'taskID',
+        headerName: 'Task ID',
+        width: 450,
     },
     {
-        field: "source",
-        headerName: "Source",
+        field: 'source',
+        headerName: 'Source',
         width: 200,
     },
     {
-        field: "dest",
-        headerName: "Destination",
+        field: 'dest',
+        headerName: 'Destination',
         width: 200,
     },
     {
-        field: "domain",
-        headerName: "Domain",
-        width: 300
-    }
-  ];
+        field: 'domain',
+        headerName: 'Domain',
+        width: 300,
+    },
+]
 
 export function TasksComponent() {
-    const [tasks, setTasks] = useState([{id: 0, taskID: "fetching....."}])
+    const [tasks, setTasks] = useState([{ id: 0, taskID: 'fetching.....' }])
     const navigate = useNavigate()
-    const timerValue = localStorage.getItem("timerValue") ? localStorage.getItem("timerValue") : 20000
+    const timerValue = localStorage.getItem('timerValue')
+        ? localStorage.getItem('timerValue')
+        : 20000
 
     const fetchData = () => {
         const APIURL = '/api/v1/tasks'
         const params = {
-            headers: { 'accepts': 'application/json' },
+            headers: { accepts: 'application/json' },
             method: 'GET',
         }
         fetch(APIURL, params)
@@ -53,19 +54,23 @@ export function TasksComponent() {
                             return task
                         }
                     })
-                    setTasks(new_tasks.map( (val, index) => {
-                        return {
-                            id: index+1, ...val
-                        }
-                    }))
+                    setTasks(
+                        new_tasks.map((val, index) => {
+                            return {
+                                id: index + 1,
+                                ...val,
+                            }
+                        })
+                    )
                     //setTasks(res.tasks)
+                } else if (res.error) {
+                    console.error(`API Error: ${res.error} -> ${res.message}`)
                 }
-                else if (res.error) {console.error(`API Error: ${res.error} -> ${res.message}`)}
             })
             .catch((err) => console.log(`Error: ${err}`))
     }
 
-    useEffect( () => {
+    useEffect(() => {
         fetchData()
         const dataTimer = setInterval(() => {
             fetchData()
@@ -73,7 +78,6 @@ export function TasksComponent() {
         return () => clearInterval(dataTimer)
     }, [])
 
-    
     const handleOnCellClick = (params) => {
         console.log(params)
         console.log(params.row.taskID)
@@ -83,9 +87,9 @@ export function TasksComponent() {
     //<Stack spacing={2}>
     //    { tasks?.map( (val, index) => <Link key={"task_"+index} href={`tasks/${val}`}>{val}</Link> )}
     //</Stack>
-    return(
+    return (
         <React.Fragment>
-            <div style={{height: "80vh"}}>
+            <div style={{ height: '80vh' }}>
                 <h2>Latest tasks</h2>
                 <DataGrid
                     rows={tasks}
@@ -96,7 +100,6 @@ export function TasksComponent() {
                     onCellClick={handleOnCellClick}
                 />
             </div>
-            
         </React.Fragment>
     )
 }

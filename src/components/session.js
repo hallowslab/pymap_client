@@ -1,17 +1,16 @@
 var CurrentSession = (() => {
-
     var getLatestTask = () => {
-        return localStorage.getItem("latestTask")
+        return localStorage.getItem('latestTask')
     }
 
     var setLatestTask = (taskID) => {
-        localStorage.setItem("latestTask", taskID)
+        localStorage.setItem('latestTask', taskID)
     }
 
     return {
         getLatestTask: getLatestTask,
-        setLatestTask: setLatestTask
+        setLatestTask: setLatestTask,
     }
 })()
 
-export {CurrentSession}
+export { CurrentSession }

@@ -1,13 +1,12 @@
 import React from 'react'
-import {Container} from '@mui/material'
-
+import { Container } from '@mui/material'
 
 import { LogsComponent } from '../components/logsComponent'
 
 export default function Logs() {
     return (
-        <Container style={{maxWidth: "95vw", marginTop: "1em"}}>
-            <LogsComponent/>
+        <Container style={{ maxWidth: '95vw', marginTop: '1em' }}>
+            <LogsComponent />
         </Container>
     )
 }
