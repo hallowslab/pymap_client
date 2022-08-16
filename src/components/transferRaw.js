@@ -26,7 +26,6 @@ export function TransferRaw() {
             )
             return
         }
-        console.log(extraArgs)
         const DATA = JSON.stringify({"destination": destination,"source": source,"input": input.split(/\r?\n/),"dry_run": dryRun, "extra_args": extraArgs})
         // make API POST
         const params = {
@@ -77,7 +76,7 @@ export function TransferRaw() {
                     </Tooltip>
                 </Grid>
                 <Grid item xs={12}>
-                    <Tooltip title="^(?P<user1>[\w.-]+)*(?P<mail_provider1>@[\w.-]+)[ |,|\|]+(?P<pword1>.+)[ |,|\|]+(?P<user2>[\w.-]+)*(?P<mail_provider2>@[\w.-]+)[ |,|\|]+(?P<pword2>.+)$">
+                    <Tooltip title="Separators are broken use spaces">
                         <Button>Current Regex</Button>
                     </Tooltip>
                 </Grid>
