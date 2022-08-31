@@ -41,13 +41,13 @@ export function LogDataComponent() {
         return () => {
             clearInterval(dataTimer)
         }
-    }, [])
+    }, [tailCount, tailTimeout])
 
     return (
         <React.Fragment>
             <Stack spacing={2}>
                 <h2>Task ID: {taskID} </h2>
-                <h3>Log file: {logID}</h3>
+                <h3>Log file:{' '}<a href={`/api/v1/tasks/${taskID}/${logID}/download`}>{logID}</a></h3>
                 <Box
                     sx={{
                         width: '900',
@@ -89,7 +89,7 @@ export function LogDataComponent() {
                         multiline
                         minRows={4}
                         maxRows={20}
-                        style={{ width: '90%' }}
+                        style={{ width: '90%', marginBottom: "1em" }}
                     />
                 </Box>
             </Stack>

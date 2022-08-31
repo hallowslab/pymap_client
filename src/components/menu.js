@@ -9,11 +9,10 @@ import {
     Menu,
     Container,
     Button,
-    MenuItem,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 
-const pages = ['Sync', 'Tasks', 'Options']
+const pages = ['Sync', 'Tasks']
 
 const ResponsiveAppBar = () => {
     const navigate = useNavigate()
@@ -78,21 +77,6 @@ const ResponsiveAppBar = () => {
                                 display: { xs: 'block', md: 'none' },
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem
-                                    key={page}
-                                    onClick={() => {
-                                        handleNavigation(page)
-                                    }}
-                                >
-                                    <Typography
-                                        component="div"
-                                        textAlign="center"
-                                    >
-                                        {page}
-                                    </Typography>
-                                </MenuItem>
-                            ))}
                         </Menu>
                     </Box>
                     <Typography
@@ -122,6 +106,15 @@ const ResponsiveAppBar = () => {
                                 {page}
                             </Button>
                         ))}
+                        <Button
+                            key={"options"}
+                            onClick={() => {
+                                window.open('/options','_blank')
+                            }}
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            options
+                        </Button>
                     </Box>
                 </Toolbar>
             </Container>
