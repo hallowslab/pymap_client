@@ -25,6 +25,7 @@ export function TransferRaw() {
     Input the accounts and credentials as displayed in the placeholder, you can use the following separators: [ "blank space" | ,]
     `
 
+
     const handleChange = () => {
         // Split the lines
         if (source === '' || destination === '' || input.length <= 5) {
@@ -96,7 +97,11 @@ export function TransferRaw() {
                     </Tooltip>
                 </Grid>
                 <Grid item xs={12}>
-                    <Tooltip title="Separators are broken use spaces">
+                    <Tooltip
+                    title={
+                        <div style={{ whiteSpace: 'pre-line', width: "100%"}}>{"Input the data as follows: \n\n Account1@domain.tld password\n Account2@domain.tld password\n... \n or \n Source@domain.tld ... Destination@domain.tld ...\n\n Check options for additional parameters"}</div>
+                    }
+                    >
                         <Button>Current Regex</Button>
                     </Tooltip>
                 </Grid>

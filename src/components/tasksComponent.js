@@ -8,7 +8,7 @@ const columns = [
     {
         field: 'taskID',
         headerName: 'Task ID',
-        width: 450,
+        width: 350,
     },
     {
         field: 'source',
@@ -24,6 +24,11 @@ const columns = [
         field: 'domain',
         headerName: 'Domain',
         width: 300,
+    },
+    {
+        field: "count",
+        headerName: "Nº Accounts",
+        width: 100
     },
 ]
 

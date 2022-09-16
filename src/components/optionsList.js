@@ -3,16 +3,12 @@ import {
     Button,
     Box,
     TextareaAutosize,
-    LinearProgress,
     TextField,
 } from '@mui/material'
 
 function getStoredArgs() {
     let extraArgs = localStorage.getItem('extraArgs')
-    //console.log(extraArgs)
     if (extraArgs) {
-        //console.log("Reached here because")
-        //console.log(extraArgs)
         return extraArgs
     }
     return ''
@@ -20,10 +16,7 @@ function getStoredArgs() {
 
 function getStoredTimer() {
     let timerValue = localStorage.getItem('timerValue')
-    //console.log(timerValue)
     if (timerValue) {
-        //console.log("Reached here because")
-        //console.log(timerValue)
         return timerValue
     }
     return 20000
@@ -31,7 +24,6 @@ function getStoredTimer() {
 
 function OptionsList() {
     const [uInput, setUInput] = useState('')
-    const [saving, setSaving] = useState(false)
     const [timerValue, setTimerValue] = useState(getStoredTimer)
 
     useEffect(() => {
@@ -41,11 +33,9 @@ function OptionsList() {
     }, [])
 
     const saveToLocalStorage = () => {
-        setSaving(true)
         try {
             localStorage.setItem('extraArgs', uInput)
             localStorage.setItem('timerValue', timerValue)
-            setSaving(false)
         } catch (e) {
             alert('Unexpected error occured')
         }
@@ -53,11 +43,6 @@ function OptionsList() {
 
     return (
         <React.Fragment>
-            {saving === true ? (
-                <LinearProgress style={{ margin: '0.5em' }} />
-            ) : (
-                <span />
-            )}
             <Box
                 sx={{
                     maxWidth: '95vw',

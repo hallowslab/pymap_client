@@ -9,7 +9,7 @@ import {
     Menu,
     Container,
     Button,
-    Modal, TextareaAutosize, TextField, LinearProgress
+    Modal, TextareaAutosize, TextField
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 
@@ -46,7 +46,6 @@ function getStoredTimer() {
 const ResponsiveAppBar = () => {
     const [open, setOpen] = useState(false);
     const [uInput, setUInput] = useState('')
-    const [saving, setSaving] = useState(false)
     const [timerValue, setTimerValue] = useState(getStoredTimer)
     const [anchorElNav, setAnchorElNav] = useState(null)
     const handleOpen = () => setOpen(true);
@@ -61,11 +60,9 @@ const ResponsiveAppBar = () => {
     }, [])
 
     const saveToLocalStorage = () => {
-        setSaving(true)
         try {
             localStorage.setItem('extraArgs', uInput)
             localStorage.setItem('timerValue', timerValue)
-            setSaving(false)
         } catch (e) {
             alert('Unexpected error occured')
         }
@@ -93,11 +90,6 @@ const ResponsiveAppBar = () => {
                 aria-describedby="modal-modal-description"
             >
             <Box sx={style}>
-                {saving === true ? (
-                    <LinearProgress style={{ margin: '0.5em' }} />
-                ) : (
-                    <span />
-                )}
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     Work in progress...
                 </Typography>
