@@ -1,0 +1,21 @@
+{
+    "menu": {
+        "sync": "Sincronizar",
+        "tasks": "Tarefas",
+        "options": "Opções"
+    },
+    "footer": {
+        "lang": "Linguagem"
+    },
+    "sync": {
+        "raw": "Em bruto",
+        "manual": "Manual"
+    },
+    "tasks": {
+        "task_id": "ID Tarefa",
+        "source": "Origem",
+        "destination": "Destino",
+        "domain": "Domínio",
+        "n_accounts": "Nº Contas"
+    }
+}

@@ -29,7 +29,6 @@ function OptionsList() {
     useEffect(() => {
         setUInput(getStoredArgs())
         setTimerValue(getStoredTimer())
-        console.log('Extra Args: %s ,Type: %s', uInput, typeof uInput)
     }, [])
 
     const saveToLocalStorage = () => {

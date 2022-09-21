@@ -12,6 +12,7 @@ import {
     Modal, TextareaAutosize, TextField
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
+import { useTranslation } from 'react-i18next';
 
 const style = {
     position: 'absolute',
@@ -50,13 +51,15 @@ const ResponsiveAppBar = () => {
     const [anchorElNav, setAnchorElNav] = useState(null)
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const handleOpenNavMenu = (event) => {setAnchorElNav(event.currentTarget)}
+    const handleCloseNavMenu = () => {setAnchorElNav(null)}
     const navigate = useNavigate()
+    const {t} = useTranslation(['main'])
 
 
     useEffect(() => {
         setUInput(getStoredArgs())
         setTimerValue(getStoredTimer())
-        console.log('Extra Args: %s ,Type: %s', uInput, typeof uInput)
     }, [])
 
     const saveToLocalStorage = () => {
@@ -68,13 +71,7 @@ const ResponsiveAppBar = () => {
         }
     }
 
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget)
-    }
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null)
-    }
 
     const handleNavigation = (page) => {
         let new_page = page.toLowerCase()
@@ -93,7 +90,7 @@ const ResponsiveAppBar = () => {
                 <Typography id="modal-modal-title" variant="h6" component="h2">
                     Work in progress...
                 </Typography>
-                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                <Typography id="modal-modal-description" component="div" sx={{ mt: 2 }}>
                     <div>
                     You can specify additional arguments here, do not add
                     newlines or line carriages (Tab/Enter) just one big string
@@ -212,7 +209,7 @@ const ResponsiveAppBar = () => {
                                     } }
                                     sx={{ my: 2, color: 'white', display: 'block' }}
                                 >
-                                    {page}
+                                    {t("menu." + page.toLowerCase())}
                                 </Button>
                             ))}
                             <Button
@@ -220,7 +217,7 @@ const ResponsiveAppBar = () => {
                                 onClick={handleOpen}
                                 sx={{ my: 2, color: 'white', display: 'block' }}
                             >
-                                options
+                                {t('menu.options')}
                             </Button>
                         </Box>
                     </Toolbar>

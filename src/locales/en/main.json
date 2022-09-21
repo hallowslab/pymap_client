@@ -1,0 +1,21 @@
+{
+    "menu": {
+        "sync": "Sync",
+        "tasks": "Tasks",
+        "options": "Options"
+    },
+    "footer": {
+        "lang": "Language"
+    },
+    "sync": {
+        "raw": "Raw Input",
+        "manual": "Manual"
+    },
+    "tasks": {
+        "task_id": "Task ID",
+        "source": "Source",
+        "destination": "Destination",
+        "domain": "Domain",
+        "n_accounts": "Nº Accounts"
+    }
+}

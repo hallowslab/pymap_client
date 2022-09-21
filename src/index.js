@@ -4,12 +4,16 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
+
+// ROUTES
 import Sync from './routes/sync'
 import Options from './routes/options'
 import Tasks from './routes/tasks'
 import Logs from './routes/logs'
 import LogFile from './routes/logFile'
 import Intro from './routes/intro'
+
+import './i18n'
 
 ReactDOM.render(
     <BrowserRouter>

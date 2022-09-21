@@ -100,7 +100,7 @@ export function TasksComponent() {
                     rows={tasks}
                     columns={columns}
                     pageSize={15}
-                    rowsPerPageOptions={[50]}
+                    rowsPerPageOptions={[15]}
                     disableSelectionOnClick
                     onCellClick={handleOnCellClick}
                 />
