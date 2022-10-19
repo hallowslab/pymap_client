@@ -1,5 +1,5 @@
-import { Button } from '@mui/material'
 import React from 'react'
+import CreateDB from '../components/createDB'
 
 
 export default function Intro() {
@@ -13,7 +13,7 @@ export default function Intro() {
                 use the tool
             </div>
             <div>Insert sample text</div>
-            <Button>Set Latest Task</Button>
+            <CreateDB/>
         </React.Fragment>
     )
 }

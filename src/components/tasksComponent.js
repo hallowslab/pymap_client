@@ -38,7 +38,7 @@ export function TasksComponent() {
         : 20000
 
     const fetchData = () => {
-        const APIURL = '/api/v1/tasks'
+        const APIURL = '/api/v2/tasks'
         const params = {
             headers: { accepts: 'application/json' },
             method: 'GET',

@@ -12,7 +12,7 @@ import {
 import Tooltip from '@mui/material/Tooltip'
 
 export function TransferRaw() {
-    const APIURL = '/api/v1/sync'
+    const APIURL = '/api/v2/sync'
     const navigate = useNavigate()
     const [input, setInput] = useState('')
     const [redirecting, setRedirecting] = useState(false)
