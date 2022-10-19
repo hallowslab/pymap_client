@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 // TODO: read this https://stackoverflow.com/questions/64331095/how-to-add-a-button-to-every-row-in-mui-datagrid
 
 const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
     {
         field: 'logFile',
         headerName: 'Log File',

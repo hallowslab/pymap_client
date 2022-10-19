@@ -5,7 +5,7 @@ import { DataGrid } from '@mui/x-data-grid'
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
-        field: 'taskID',
+        field: 'task_id',
         headerName: 'Task ID',
         width: 350,
     },
@@ -15,7 +15,7 @@ const columns = [
         width: 200,
     },
     {
-        field: 'dest',
+        field: 'destination',
         headerName: 'Destination',
         width: 200,
     },
@@ -25,7 +25,7 @@ const columns = [
         width: 300,
     },
     {
-        field: "count",
+        field: "n_accounts",
         headerName: "Nº Accounts",
         width: 100
     },
@@ -83,7 +83,7 @@ export function TasksComponent() {
 
     const handleOnCellClick = (params) => {
         console.log(params)
-        window.open(`${window.location.href}/${params.row.taskID}`, '_blank')
+        window.open(`${window.location.href}/${params.row.task_id}`, '_blank')
     }
 
     //<Stack spacing={2}>
