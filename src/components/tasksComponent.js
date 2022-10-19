@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 //import {Stack, Link} from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
-import { useNavigate } from 'react-router-dom'
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -34,7 +33,6 @@ const columns = [
 
 export function TasksComponent() {
     const [tasks, setTasks] = useState([{ id: 0, taskID: 'fetching.....' }])
-    const navigate = useNavigate()
     const timerValue = localStorage.getItem('timerValue')
         ? localStorage.getItem('timerValue')
         : 20000
@@ -85,8 +83,7 @@ export function TasksComponent() {
 
     const handleOnCellClick = (params) => {
         console.log(params)
-        console.log(params.row.taskID)
-        navigate(params.row.taskID)
+        window.open(`${window.location.href}/${params.row.taskID}`, '_blank')
     }
 
     //<Stack spacing={2}>

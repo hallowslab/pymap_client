@@ -219,6 +219,13 @@ const ResponsiveAppBar = () => {
                             >
                                 {t('menu.options')}
                             </Button>
+                            <Button
+                                key={"DavMail Proxy"}
+                                onClick={handleOpen}
+                                sx={{ my: 2, color: 'white', display: 'block' }}
+                            >
+                                Davmail Proxy
+                            </Button>
                         </Box>
                     </Toolbar>
                 </Container>

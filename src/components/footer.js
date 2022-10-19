@@ -15,7 +15,7 @@ const Footer = () => {
 
     return (
         <React.Fragment>
-            <AppBar color="primary" sx={{ top: 'auto', bottom: 0 }}>
+            <AppBar color="primary" sx={{ height: '7ch',top: 'auto', bottom: 0 }}>
             <Box
                 component="form"
                 sx={{

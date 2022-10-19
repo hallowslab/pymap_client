@@ -23,8 +23,6 @@ export default function LanguageSwitcher() {
 
     const changeLang = (e) => {
         let nLang = e.target.value
-        console.log("Language: ", lang)
-        console.log("Nlanguage: ", nLang)
         if (lang !== nLang && lang.length >= 2) {
             i18n.changeLanguage(nLang)
             setLang(nLang)
@@ -50,7 +48,10 @@ export default function LanguageSwitcher() {
         children.push(<MenuItem  key={lng} value={availableLangs[lng]}>{availableLangs[lng]}</MenuItem>)
     }
     return (
-        <Select style={{color: "white"}}
+        <Select sx={{
+            height: '5ch'
+            }}
+            style={{color: "white"}}
             labelId="lang-selector"
             id="lang-selector"
             value={lang}

@@ -82,7 +82,6 @@ export function LogsComponent() {
     }, [])
 
     const handleOnCellClick = (params) => {
-        console.log(params.row.logFile)
         navigate(params.row.logFile)
     }
 
