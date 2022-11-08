@@ -2,7 +2,8 @@ import React from 'react'
 import {
     AppBar,
     InputLabel,
-    Box
+    Box,
+    Typography
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
@@ -15,17 +16,20 @@ const Footer = () => {
 
     return (
         <React.Fragment>
-            <AppBar color="primary" sx={{ height: '7ch',top: 'auto', bottom: 0 }}>
+            <AppBar color="primary" sx={{ height: '9ch',top: 'auto', bottom: 0 }}>
             <Box
                 component="form"
                 sx={{
-                    '& > :not(style)': { m: 1, width: '25ch' },
+                    '& > :not(style)': { m: 2, width: '25ch' },
                 }}
                 noValidate
                 autoComplete="off"
             >
-                <InputLabel style={{display: 'inline-flex', color:"white"}} id="lang-selector-label">{t('footer.lang')}</InputLabel>
-                <LanguageSwitcher/>
+            <InputLabel style={{display: 'inline-flex', color:"white"}} id="lang-selector-label">{t('footer.lang')}</InputLabel>
+            <LanguageSwitcher/>
+            <Typography variant="h7" style={{display: 'inline-flex', color:"white"}} component="div">
+                Pymap © 2022
+            </Typography>
             </Box>
             </AppBar>
         </React.Fragment>

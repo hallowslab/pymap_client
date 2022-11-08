@@ -10,7 +10,7 @@ function App() {
             <header>
                 <Menu />
             </header>
-            <Outlet />
+            <Outlet/>
             <footer>
                 <Footer/>
             </footer>
