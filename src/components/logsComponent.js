@@ -59,6 +59,7 @@ export function LogsComponent() {
                             return { id: index + 1, ...val }
                         })
                     )
+                    setTaskStatus(res.status.state)
                 } else if (res.error == "ExpiredAccessError") {
                     alert("Access expired, removing token...")
                     console.error("Access expired, removing token...")
