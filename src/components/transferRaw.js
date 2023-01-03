@@ -46,7 +46,7 @@ export function TransferRaw() {
         })
         // make API POST
         const params = {
-            headers: { 'content-type': 'application/json; charset=UTF-8' },
+            headers: { 'content-type': 'application/json; charset=UTF-8', 'Authorization': `Bearer ${localStorage.getItem("token")}` },
             body: DATA,
             method: 'POST',
         }
@@ -55,11 +55,21 @@ export function TransferRaw() {
                 return data.json()
             })
             .then((res) => {
+            if (res.taskID) {
                 console.log(res)
                 setRedirecting(true)
                 setTimeout(() => {
                     navigate('/tasks/' + res.taskID)
                 }, 1000)
+            } else if (res.error == "ExpiredAccessError") {
+                alert("Access expired, removing token...")
+                console.error("Access expired, removing token...")
+                localStorage.removeItem("token")
+                navigate("/")
+                window.location.reload()
+            } else {
+                console.error(`API Error: ${res.error} -> ${res.message}`)
+            }
             })
             .catch((err) => {
                 alert('An error has occurred, please check the console')

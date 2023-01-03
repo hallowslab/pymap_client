@@ -14,7 +14,7 @@ export function LogDataComponent() {
     const fetchData = () => {
         const APIURL = `/api/v1/tasks/${taskID}/${logID}?tcount=${tailCount}&ttimeout=${tailTimeout}`
         const params = {
-            headers: { accepts: 'application/json' },
+            headers: { accepts: 'application/json', 'Authorization': `Bearer ${localStorage.getItem("token")}` },
             method: 'GET',
         }
         fetch(APIURL, params)
@@ -24,8 +24,13 @@ export function LogDataComponent() {
             .then((res) => {
                 if (res.content) {
                     setLogData(res.content)
-                }
-                if (res.error) {
+                } else if (res.error == "ExpiredAccessError") {
+                    alert("Access expired, removing token...")
+                    console.error("Access expired, removing token...")
+                    localStorage.removeItem("token")
+                    navigate("/")
+                    window.location.reload()
+                } else {
                     console.error(`API Error: ${res.error} -> ${res.message}`)
                 }
             })
@@ -41,7 +46,7 @@ export function LogDataComponent() {
         return () => {
             clearInterval(dataTimer)
         }
-    }, [tailCount, tailTimeout])
+    }, [timerValue])
 
     return (
         <React.Fragment>

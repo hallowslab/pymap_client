@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 //import {Stack, Link} from '@mui/material'
 import { DataGrid } from '@mui/x-data-grid'
+import { useNavigate } from 'react-router-dom'
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -33,6 +34,7 @@ const columns = [
 
 export function TasksComponent() {
     const [tasks, setTasks] = useState([{ id: 0, taskID: 'fetching.....' }])
+    const navigate = useNavigate()
     const timerValue = localStorage.getItem('timerValue')
         ? localStorage.getItem('timerValue')
         : 20000
@@ -40,7 +42,7 @@ export function TasksComponent() {
     const fetchData = () => {
         const APIURL = '/api/v2/tasks'
         const params = {
-            headers: { accepts: 'application/json' },
+            headers: { accepts: 'application/json', 'Authorization': `Bearer ${localStorage.getItem("token")}` },
             method: 'GET',
         }
         fetch(APIURL, params)
@@ -48,7 +50,7 @@ export function TasksComponent() {
                 return data.json()
             })
             .then((res) => {
-                console.log(res)
+                console.debug(res)
                 // When the server fails to parse status the client doesn't display any info
                 if (res.tasks) {
                     let new_tasks = res.tasks
@@ -66,7 +68,13 @@ export function TasksComponent() {
                         })
                     )
                     //setTasks(res.tasks)
-                } else if (res.error) {
+                } else if (res.error == "ExpiredAccessError") {
+                    alert("Access expired, removing token...")
+                    console.error("Access expired, removing token...")
+                    localStorage.removeItem("token")
+                    navigate("/")
+                    window.location.reload()
+                } else {
                     console.error(`API Error: ${res.error} -> ${res.message}`)
                 }
             })

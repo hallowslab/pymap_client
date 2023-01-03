@@ -3,8 +3,6 @@ import { DataGrid } from '@mui/x-data-grid'
 
 import { useNavigate, useParams } from 'react-router-dom'
 
-// TODO: read this https://stackoverflow.com/questions/64331095/how-to-add-a-button-to-every-row-in-mui-datagrid
-
 const columns = [
     {
         field: 'logFile',
@@ -39,30 +37,34 @@ export function LogsComponent() {
     const fetchData = () => {
         const APIURL = `/api/v1/tasks/${taskID}`
         const params = {
-            headers: { accepts: 'application/json' },
+            headers: { accepts: 'application/json', 'Authorization': `Bearer ${localStorage.getItem("token")}` },
             method: 'GET',
         }
-        console.log('Fetching API')
-        console.log('Timer Value')
-        console.log(timerValue)
+        console.debug('Fetching API')
+        console.debug('Timer Value')
+        console.debug(timerValue)
         fetch(APIURL, params)
             .then((data) => {
                 return data.json()
             })
             .then((res) => {
-                console.log('Res is ')
-                console.log(res)
+                console.debug('Res is ')
+                console.debug(res)
                 if (res.logs) {
-                    console.log('Logs')
-                    console.log(res.logs)
-                    console.log('Log Status')
-                    console.log(res.logsStatus)
+                    console.debug('Log Status')
+                    console.debug(res.logsStatus)
                     setRows(
                         res.logs?.map((val, index) => {
                             return { id: index + 1, ...val }
                         })
                     )
-                } else if (res.error) {
+                } else if (res.error == "ExpiredAccessError") {
+                    alert("Access expired, removing token...")
+                    console.error("Access expired, removing token...")
+                    localStorage.removeItem("token")
+                    navigate("/")
+                    window.location.reload()
+                } else {
                     console.error(`API Error: ${res.error} -> ${res.message}`)
                 }
             })
@@ -72,7 +74,7 @@ export function LogsComponent() {
     useEffect(() => {
         fetchData()
         const dataTimer = setInterval(() => {
-            console.log(timerValue)
+            console.debug("Timer Value",timerValue)
             fetchData()
         }, timerValue)
         return () => {
