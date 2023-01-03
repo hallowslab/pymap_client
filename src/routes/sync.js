@@ -29,7 +29,7 @@ export default function Transfer() {
     }
 
     return (
-        <Box sx={{ width: '100%', height: '100vh'}}>
+        <Box sx={{ width: '100%', height: '70vh'}}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs
                     value={value}

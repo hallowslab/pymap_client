@@ -8,6 +8,7 @@ import {
     Checkbox,
     FormControlLabel,
     CircularProgress,
+    Box
 } from '@mui/material'
 import Tooltip from '@mui/material/Tooltip'
 
@@ -80,13 +81,13 @@ export function TransferRaw() {
     // The difference is that the onInput event occurs immediately after the value of an element has changed,
     // while onChange occurs when the element loses focus,
     return (
-        <React.Fragment>
+        <Box style={{marginBottom: "5em"}}>
             {redirecting === true ? (
                 <CircularProgress style={{ margin: '0.5em' }} />
             ) : (
                 <span />
             )}
-            <Grid style={{ marginTop: '1em' }} container spacing={2}>
+            <Grid style={{ marginTop: '1em', paddingBottom: "7em"}} container spacing={2}>
                 <Grid item xs={6}>
                     <TextField
                         label="Source"
@@ -115,7 +116,7 @@ export function TransferRaw() {
                         <Button>Current Regex</Button>
                     </Tooltip>
                 </Grid>
-                <Grid style={{ marginTop: '0.5em' }} item xs={12}>
+                <Grid item xs={12}>
                     <TextareaAutosize
                         aria-label="empty textarea"
                         minRows={5}
@@ -125,20 +126,25 @@ export function TransferRaw() {
                         onInput={(e) => setInput(e.target.value)}
                     />
                 </Grid>
-            </Grid>
-            <Button onClick={handleChange}>Start Sync</Button>
-            <FormControlLabel
-                disabled
-                style={{ margin: '0 auto 0 1em' }}
-                control={
-                    <Checkbox
-                        onChange={() => {
-                            setDryRun(!dryRun)
-                        }}
+                <Grid item xs={6}>
+                    <Button onClick={handleChange}>Start Sync</Button>
+
+                </Grid>
+                <Grid item xs={6}>
+                    <FormControlLabel
+                        disabled
+                        style={{ margin: '0 auto 0 1em' }}
+                        control={
+                            <Checkbox
+                                onChange={() => {
+                                    setDryRun(!dryRun)
+                                }}
+                            />
+                        }
+                        label="Dry run"
                     />
-                }
-                label="Dry run"
-            />
-        </React.Fragment>
+                </Grid>
+            </Grid>
+        </Box>
     )
 }

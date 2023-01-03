@@ -30,6 +30,7 @@ export function LogsComponent() {
     let { taskID } = useParams()
     const navigate = useNavigate()
     const [rows, setRows] = useState([{ id: 0, logFile: 'fetching.....' }])
+    const [taskStatus, setTaskStatus] = useState('Querying Status')
     const timerValue = localStorage.getItem('timerValue')
         ? localStorage.getItem('timerValue')
         : 20000
@@ -89,7 +90,8 @@ export function LogsComponent() {
     return (
         <React.Fragment>
             <div style={{ height: '80vh' }}>
-                <h2>Task ID: {taskID} </h2>
+                <h2 style={{ display: 'inline-block' , marginRight: '2em'}}>Task ID: {taskID} </h2>
+                <h2 style={{ display: 'inline-block' }}>State: {taskStatus}</h2>
 
                 <DataGrid
                     rows={rows}
