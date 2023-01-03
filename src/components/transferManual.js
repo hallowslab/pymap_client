@@ -4,6 +4,7 @@ import { Stack, Container, IconButton, Icon, Button } from '@mui/material'
 import { ManualSyncComponent } from './manualSyncComponent.js'
 
 export function TransferManual() {
+    // UNFINISHED
     const [listCount, setListCount] = useState(1)
     const syncButtonRef = useRef(null)
 

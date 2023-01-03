@@ -1,10 +1,7 @@
-import { Button } from '@mui/material'
 import React from 'react'
 
 
 export default function Intro() {
-
-
     return (
         <React.Fragment>
             <h1>Welcome to Pymap</h1>
@@ -13,7 +10,6 @@ export default function Intro() {
                 use the tool
             </div>
             <div>Insert sample text</div>
-            <Button>Set Latest Task</Button>
         </React.Fragment>
     )
 }

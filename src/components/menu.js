@@ -138,7 +138,7 @@ const ResponsiveAppBar = () => {
                 </Typography>
             </Box>
             </Modal>
-        <AppBar position="static">
+        <AppBar position="static" style={{marginBottom: "2em"}}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <Typography
@@ -234,3 +234,15 @@ const ResponsiveAppBar = () => {
     )
 }
 export default ResponsiveAppBar
+
+export function NoMenu() {
+    return (
+        <AppBar position="static" sx={{marginBottom: "2em"}}>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Pymap
+          </Typography>
+        </Toolbar>
+      </AppBar>
+    )
+}
