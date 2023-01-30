@@ -6,11 +6,6 @@ import { useNavigate } from 'react-router-dom'
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     {
-        field: 'task_id',
-        headerName: 'Task ID',
-        width: 350,
-    },
-    {
         field: 'source',
         headerName: 'Source',
         width: 200,
