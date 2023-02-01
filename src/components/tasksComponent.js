@@ -21,9 +21,14 @@ const columns = [
         width: 300,
     },
     {
-        field: "n_accounts",
-        headerName: "Nº Accounts",
-        width: 100
+        field: 'n_accounts',
+        headerName: 'Nº Accounts',
+        width: 200,
+    },
+    {
+        field: 'owner_username',
+        headerName: 'Owner',
+        width: 200,
     },
 ]
 
@@ -37,7 +42,10 @@ export function TasksComponent() {
     const fetchData = () => {
         const APIURL = '/api/v2/tasks'
         const params = {
-            headers: { accepts: 'application/json', 'Authorization': `Bearer ${localStorage.getItem("token")}` },
+            headers: {
+                accepts: 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
             method: 'GET',
         }
         fetch(APIURL, params)
@@ -63,11 +71,11 @@ export function TasksComponent() {
                         })
                     )
                     //setTasks(res.tasks)
-                } else if (res.error == "ExpiredAccessError") {
-                    alert("Access expired, removing token...")
-                    console.error("Access expired, removing token...")
-                    localStorage.removeItem("token")
-                    navigate("/")
+                } else if (res.error == 'ExpiredAccessError') {
+                    alert('Access expired, removing token...')
+                    console.error('Access expired, removing token...')
+                    localStorage.removeItem('token')
+                    navigate('/')
                     window.location.reload()
                 } else {
                     console.error(`API Error: ${res.error} -> ${res.message}`)

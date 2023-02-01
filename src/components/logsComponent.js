@@ -38,7 +38,10 @@ export function LogsComponent() {
     const fetchData = () => {
         const APIURL = `/api/v1/tasks/${taskID}`
         const params = {
-            headers: { accepts: 'application/json', 'Authorization': `Bearer ${localStorage.getItem("token")}` },
+            headers: {
+                accepts: 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
             method: 'GET',
         }
         console.debug('Fetching API')
@@ -51,7 +54,13 @@ export function LogsComponent() {
             .then((res) => {
                 console.debug('Res is ')
                 console.debug(res)
-                if (res.logs) {
+                if (res.error == 'ExpiredAccessError') {
+                    alert('Access expired, removing token...')
+                    console.error('Access expired, removing token...')
+                    localStorage.removeItem('token')
+                    navigate('/')
+                    window.location.reload()
+                } else if (res.logs) {
                     console.debug('Log Status')
                     console.debug(res.logsStatus)
                     setRows(
@@ -60,12 +69,6 @@ export function LogsComponent() {
                         })
                     )
                     setTaskStatus(res.status.state)
-                } else if (res.error == "ExpiredAccessError") {
-                    alert("Access expired, removing token...")
-                    console.error("Access expired, removing token...")
-                    localStorage.removeItem("token")
-                    navigate("/")
-                    window.location.reload()
                 } else {
                     console.error(`API Error: ${res.error} -> ${res.message}`)
                 }
@@ -76,7 +79,7 @@ export function LogsComponent() {
     useEffect(() => {
         fetchData()
         const dataTimer = setInterval(() => {
-            console.debug("Timer Value",timerValue)
+            console.debug('Timer Value', timerValue)
             fetchData()
         }, timerValue)
         return () => {
@@ -91,7 +94,9 @@ export function LogsComponent() {
     return (
         <React.Fragment>
             <div style={{ height: '80vh' }}>
-                <h2 style={{ display: 'inline-block' , marginRight: '2em'}}>Task ID: {taskID} </h2>
+                <h2 style={{ display: 'inline-block', marginRight: '2em' }}>
+                    Task ID: {taskID}{' '}
+                </h2>
                 <h2 style={{ display: 'inline-block' }}>State: {taskStatus}</h2>
 
                 <DataGrid
