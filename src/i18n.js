@@ -8,25 +8,26 @@ import pt from './locales/pt/main.json'
 import enOptions from './locales/en/options.json'
 import ptOptions from './locales/pt/options.json'
 
-
 let resources = {
-    'en': {
+    en: {
         main: en,
-        options: enOptions
+        options: enOptions,
     },
     'pt-PT': {
         main: pt,
-        options: ptOptions
+        options: ptOptions,
     },
-};
+}
 
-i18n.use(LanguageDetector).use(initReactI18next).init({
-    resources,
-    fallbackLng: 'en',
-    debug: false,
-    interpolation: {
-        escapeValue: false
-    }
-})
+i18n.use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+        resources,
+        fallbackLng: 'en',
+        debug: false,
+        interpolation: {
+            escapeValue: false,
+        },
+    })
 
 export default i18n

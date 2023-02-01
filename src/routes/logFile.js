@@ -5,7 +5,9 @@ import { LogDataComponent } from '../components/logDataComponent'
 
 export default function LogFile() {
     return (
-        <Container style={{ maxWidth: '95vw', marginTop: '1em', paddingBottom: '5em'}}>
+        <Container
+            style={{ maxWidth: '95vw', marginTop: '1em', paddingBottom: '5em' }}
+        >
             <LogDataComponent />
         </Container>
     )
