@@ -6,12 +6,12 @@ import Footer from './components/footer'
 import LoginForm from './components/loginComponent'
 
 function App() {
+    const APIURL = '/api/v2/heartbeat'
     const [token, setToken] = useState(localStorage.getItem('token'))
     const navigate = useNavigate()
     const hbTimeout = 60000
 
     const heartbeat = () => {
-        const APIURL = '/api/v2/heartbeat'
         const params = {
             headers: {
                 accepts: 'application/json',

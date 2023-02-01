@@ -16,6 +16,7 @@ import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
 
 export default function LoginForm(props) {
+    const APIURL = '/api/v2/login'
     const [showPassword, setShowPassword] = React.useState(false)
     const [user, setUser] = useState('')
     const [password, setPassword] = useState('')
@@ -36,7 +37,7 @@ export default function LoginForm(props) {
             console.log('Password: ', password)
             return
         }
-        fetch('/api/v2/login', {
+        fetch(APIURL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ identifier: user, password: password }),

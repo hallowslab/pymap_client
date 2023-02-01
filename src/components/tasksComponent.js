@@ -33,6 +33,7 @@ const columns = [
 ]
 
 export function TasksComponent() {
+    const APIURL = '/api/v2/tasks'
     const [tasks, setTasks] = useState([{ id: 0, taskID: 'fetching.....' }])
     const navigate = useNavigate()
     const timerValue = localStorage.getItem('timerValue')
@@ -40,7 +41,6 @@ export function TasksComponent() {
         : 20000
 
     const fetchData = () => {
-        const APIURL = '/api/v2/tasks'
         const params = {
             headers: {
                 accepts: 'application/json',

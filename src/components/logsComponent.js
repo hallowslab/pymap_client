@@ -36,7 +36,7 @@ export function LogsComponent() {
         : 20000
 
     const fetchData = () => {
-        const APIURL = `/api/v1/tasks/${taskID}`
+        const APIURL = `/api/v2/tasks/${taskID}`
         const params = {
             headers: {
                 accepts: 'application/json',
