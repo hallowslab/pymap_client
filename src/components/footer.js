@@ -28,7 +28,7 @@ const Footer = () => {
             <InputLabel style={{display: 'inline-flex', color:"white"}} id="lang-selector-label">{t('footer.lang')}</InputLabel>
             <LanguageSwitcher/>
             <Typography variant="h7" style={{display: 'inline-flex', color:"white"}} component="div">
-                Pymap © 2022
+                Pymap © 2023
             </Typography>
             </Box>
             </AppBar>
