@@ -43,7 +43,6 @@ export function LogDataComponent() {
     useEffect(() => {
         fetchData()
         const dataTimer = setInterval(() => {
-            console.log(timerValue)
             fetchData()
         }, timerValue)
         return () => {
