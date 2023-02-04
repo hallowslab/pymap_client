@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
-
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate, useParams } from 'react-router-dom'
 
 const columns = [
@@ -90,6 +90,30 @@ export function LogsComponent() {
         navigate(params.row.logFile)
     }
 
+    const handleDelete = () => {
+        const APIURL = `/api/v2/admin/delete-task?id=${taskID}`
+        const params = {
+            headers: {
+                'content-type': 'application/json; charset=UTF-8',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            body: DATA,
+            method: 'POST',
+        }
+        fetch(APIURL, params)
+            .then((data) => {
+                return data.json()
+            }).then((res) => {
+                if (res.message) {
+                    alert("Removed task")
+                    navigate("/tasks")
+                    window.location.reload()
+                } else {
+                    console.log(`API Error: ${res.error} -> ${res.message}`)
+                }
+            }).catch((err) => console.log(`Error: ${err}`))
+    }
+
     return (
         <React.Fragment>
             <div style={{ height: '80vh' }}>
@@ -97,6 +121,7 @@ export function LogsComponent() {
                     Task ID: {taskID}{' '}
                 </h2>
                 <h2 style={{ display: 'inline-block' }}>State: {taskStatus}</h2>
+                <DeleteIcon onClick={handleDelete}/>
 
                 <DataGrid
                     rows={rows}
