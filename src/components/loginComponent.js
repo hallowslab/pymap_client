@@ -14,6 +14,8 @@ import {
 } from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import authenticatedFetch from '../utils/apiFetcher'
+import handleTokenExpiration from '../utils/handleTokenExpiration'
 
 export default function LoginForm(props) {
     const APIURL = '/api/v2/login'
@@ -28,7 +30,7 @@ export default function LoginForm(props) {
         event.preventDefault()
     }
 
-    const handleCall = () => {
+    const handleCall = async () => {
         if (user == '' || password == '') {
             alert(
                 'Your input seems to be invalid, please check the console log'
@@ -37,33 +39,23 @@ export default function LoginForm(props) {
             console.log('Password: ', password)
             return
         }
-        fetch(APIURL, {
+        const params = {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ identifier: user, password: password }),
-        })
-            .then((res) => {
-                if (res.status != 200) {
-                    console.log(res)
-                    alert('API Error, check logs')
-                    console.log('Clearing token')
-                    localStorage.removeItem('token')
-                    props.tokenFunc('')
-                }
-                return res.json()
-            })
-            .then((data) => {
-                if (data.access_token) {
-                    localStorage.setItem('token', data.access_token)
-                    props.tokenFunc(data.access_token)
-                    console.log('navigating to sync')
-                    navigate('/sync')
-                    window.location.reload()
-                } else {
-                    console.log(`API Error: ${data.message}`)
-                }
-            })
-            .catch((err) => console.error(`Error: ${err}`))
+        }
+        let res = await authenticatedFetch(APIURL, params)
+        if (res.error) {
+            handleTokenExpiration()
+            props.tokenFunc('')
+        } else if (res.access_token) {
+            localStorage.setItem('token', res.access_token)
+            props.tokenFunc(res.access_token)
+            navigate('/sync')
+            window.location.reload()
+        } else {
+            console.log(`API Error[${res.error}]: ${res.message}`)
+        }
     }
 
     const handleInputs = (e) => {

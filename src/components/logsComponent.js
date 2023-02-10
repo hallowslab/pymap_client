@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
-import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate, useParams } from 'react-router-dom'
+import authenticatedFetch from '../utils/apiFetcher'
+import handleTokenExpiration from '../utils/handleTokenExpiration'
 
 const columns = [
     {
@@ -35,7 +36,7 @@ export function LogsComponent() {
         ? localStorage.getItem('timerValue')
         : 20000
 
-    const fetchData = () => {
+    const fetchData = async () => {
         const APIURL = `/api/v2/tasks/${taskID}`
         const params = {
             headers: {
@@ -44,36 +45,19 @@ export function LogsComponent() {
             },
             method: 'GET',
         }
-        console.debug('Fetching API')
-        console.debug('Timer Value')
-        console.debug(timerValue)
-        fetch(APIURL, params)
-            .then((data) => {
-                return data.json()
-            })
-            .then((res) => {
-                console.debug('Res is ')
-                console.debug(res)
-                if (res.error == 'ExpiredAccessError') {
-                    alert('Access expired, removing token...')
-                    console.error('Access expired, removing token...')
-                    localStorage.removeItem('token')
-                    navigate('/')
-                    window.location.reload()
-                } else if (res.logs) {
-                    console.debug('Log Status')
-                    console.debug(res.logsStatus)
-                    setRows(
-                        res.logs?.map((val, index) => {
-                            return { id: index + 1, ...val }
-                        })
-                    )
-                    setTaskStatus(res.status.state)
-                } else {
-                    console.error(`API Error: ${res.error} -> ${res.message}`)
-                }
-            })
-            .catch((err) => console.log(`Error: ${err}`))
+        let res = await authenticatedFetch(APIURL, params)
+        if (res.error == 'ExpiredAccessError') {
+            handleTokenExpiration()
+        } else if (res.logs) {
+            setRows(
+                res.logs?.map((val, index) => {
+                    return { id: index + 1, ...val }
+                })
+            )
+            setTaskStatus(res.status.state)
+        } else {
+            console.error(`API Error: ${res.error} -> ${res.message}`)
+        }
     }
 
     useEffect(() => {
@@ -90,30 +74,6 @@ export function LogsComponent() {
         navigate(params.row.logFile)
     }
 
-    const handleDelete = () => {
-        const APIURL = `/api/v2/admin/delete-task?id=${taskID}`
-        const params = {
-            headers: {
-                'content-type': 'application/json; charset=UTF-8',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            body: DATA,
-            method: 'POST',
-        }
-        fetch(APIURL, params)
-            .then((data) => {
-                return data.json()
-            }).then((res) => {
-                if (res.message) {
-                    alert("Removed task")
-                    navigate("/tasks")
-                    window.location.reload()
-                } else {
-                    console.log(`API Error: ${res.error} -> ${res.message}`)
-                }
-            }).catch((err) => console.log(`Error: ${err}`))
-    }
-
     return (
         <React.Fragment>
             <div style={{ height: '80vh' }}>
@@ -121,8 +81,6 @@ export function LogsComponent() {
                     Task ID: {taskID}{' '}
                 </h2>
                 <h2 style={{ display: 'inline-block' }}>State: {taskStatus}</h2>
-                <DeleteIcon onClick={handleDelete}/>
-
                 <DataGrid
                     rows={rows}
                     columns={columns}

@@ -20,7 +20,9 @@ export function TransferRaw() {
     const [source, setSource] = useState('')
     const [destination, setDestination] = useState('')
     const [dryRun, setDryRun] = useState(false)
-    const extraArgs = localStorage.getItem('extraArgs') ? localStorage.getItem('extraArgs') : ''
+    const extraArgs = localStorage.getItem('extraArgs')
+        ? localStorage.getItem('extraArgs')
+        : ''
 
     const HelpTooltip = `
     Input the accounts and credentials as displayed in the placeholder, you can use the following separators: [ "blank space" | ,]
