@@ -8,7 +8,7 @@ import {
     Checkbox,
     FormControlLabel,
     CircularProgress,
-    Box
+    Box,
 } from '@mui/material'
 import Tooltip from '@mui/material/Tooltip'
 
@@ -21,11 +21,12 @@ export function TransferRaw() {
     const [destination, setDestination] = useState('')
     const [dryRun, setDryRun] = useState(false)
     const extraArgs = localStorage.getItem('extraArgs')
+        ? localStorage.getItem('extraArgs')
+        : ''
 
     const HelpTooltip = `
     Input the accounts and credentials as displayed in the placeholder, you can use the following separators: [ "blank space" | ,]
     `
-
 
     const handleChange = () => {
         // Split the lines
@@ -47,7 +48,10 @@ export function TransferRaw() {
         })
         // make API POST
         const params = {
-            headers: { 'content-type': 'application/json; charset=UTF-8', 'Authorization': `Bearer ${localStorage.getItem("token")}` },
+            headers: {
+                'content-type': 'application/json; charset=UTF-8',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
             body: DATA,
             method: 'POST',
         }
@@ -56,21 +60,21 @@ export function TransferRaw() {
                 return data.json()
             })
             .then((res) => {
-            if (res.taskID) {
-                console.log(res)
-                setRedirecting(true)
-                setTimeout(() => {
-                    navigate('/tasks/' + res.taskID)
-                }, 1000)
-            } else if (res.error == "ExpiredAccessError") {
-                alert("Access expired, removing token...")
-                console.error("Access expired, removing token...")
-                localStorage.removeItem("token")
-                navigate("/")
-                window.location.reload()
-            } else {
-                console.error(`API Error: ${res.error} -> ${res.message}`)
-            }
+                if (res.error == 'ExpiredAccessError') {
+                    alert('Access expired, removing token...')
+                    console.error('Access expired, removing token...')
+                    localStorage.removeItem('token')
+                    navigate('/')
+                    window.location.reload()
+                } else if (res.taskID) {
+                    console.log(res)
+                    setRedirecting(true)
+                    setTimeout(() => {
+                        navigate('/tasks/' + res.taskID)
+                    }, 1000)
+                } else {
+                    console.error(`API Error: ${res.error} -> ${res.message}`)
+                }
             })
             .catch((err) => {
                 alert('An error has occurred, please check the console')
@@ -81,13 +85,17 @@ export function TransferRaw() {
     // The difference is that the onInput event occurs immediately after the value of an element has changed,
     // while onChange occurs when the element loses focus,
     return (
-        <Box style={{marginBottom: "5em"}}>
+        <Box style={{ marginBottom: '5em' }}>
             {redirecting === true ? (
                 <CircularProgress style={{ margin: '0.5em' }} />
             ) : (
                 <span />
             )}
-            <Grid style={{ marginTop: '1em', paddingBottom: "7em"}} container spacing={2}>
+            <Grid
+                style={{ marginTop: '1em', paddingBottom: '7em' }}
+                container
+                spacing={2}
+            >
                 <Grid item xs={6}>
                     <TextField
                         label="Source"
@@ -109,9 +117,18 @@ export function TransferRaw() {
                 </Grid>
                 <Grid item xs={12}>
                     <Tooltip
-                    title={
-                        <div style={{ whiteSpace: 'pre-line', width: "100%"}}>{"Input the data as follows: \n\n Account1@domain.tld password\n Account2@domain.tld password\n... \n or \n Source@domain.tld ... Destination@domain.tld ...\n\n Check options for additional parameters"}</div>
-                    }
+                        title={
+                            <div
+                                style={{
+                                    whiteSpace: 'pre-line',
+                                    width: '100%',
+                                }}
+                            >
+                                {
+                                    'Input the data as follows: \n\n Account1@domain.tld password\n Account2@domain.tld password\n... \n or \n Source@domain.tld ... Destination@domain.tld ...\n\n Check options for additional parameters'
+                                }
+                            </div>
+                        }
                     >
                         <Button>Current Regex</Button>
                     </Tooltip>
@@ -128,7 +145,6 @@ export function TransferRaw() {
                 </Grid>
                 <Grid item xs={6}>
                     <Button onClick={handleChange}>Start Sync</Button>
-
                 </Grid>
                 <Grid item xs={6}>
                     <FormControlLabel

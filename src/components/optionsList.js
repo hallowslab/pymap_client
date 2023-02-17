@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-    Button,
-    Box,
-    TextareaAutosize,
-    TextField,
-} from '@mui/material'
+import { Button, Box, TextareaAutosize, TextField } from '@mui/material'
 
 function getStoredArgs() {
     let extraArgs = localStorage.getItem('extraArgs')

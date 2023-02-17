@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {
-    MenuItem,
-    Select,
-} from '@mui/material'
+import { MenuItem, Select } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
 function getStoredLang() {
@@ -16,8 +13,8 @@ function getStoredLang() {
 // TODO: Add some validation
 export default function LanguageSwitcher() {
     const availableLangs = ['en', 'pt-PT']
-    const {i18n} = useTranslation()
-    const {t} = useTranslation(['main'])
+    const { i18n } = useTranslation()
+    const { t } = useTranslation(['main'])
     const [lang, setLang] = useState(getStoredLang)
     let children = []
 
@@ -30,34 +27,38 @@ export default function LanguageSwitcher() {
         }
     }
 
-    useEffect(()=>{
-        console.log("Language effect triggered")
+    useEffect(() => {
+        console.log('Language effect triggered')
         window.dataLayer?.push({
             event: 'event',
             eventProps: {
                 category: 'acessibility',
                 action: 'change',
                 label: 'language',
-                value: lang
-            }
+                value: lang,
+            },
         })
-
     }, [lang])
 
     for (let lng in availableLangs) {
-        children.push(<MenuItem  key={lng} value={availableLangs[lng]}>{availableLangs[lng]}</MenuItem>)
+        children.push(
+            <MenuItem key={lng} value={availableLangs[lng]}>
+                {availableLangs[lng]}
+            </MenuItem>
+        )
     }
     return (
-        <Select sx={{
-            height: '5ch'
+        <Select
+            sx={{
+                height: '5ch',
             }}
-            style={{color: "white"}}
+            style={{ color: 'white' }}
             labelId="lang-selector"
             id="lang-selector"
             value={lang}
-            label={t("footer.lang")}
+            label={t('footer.lang')}
             onChange={changeLang}
-            >
+        >
             {children}
         </Select>
     )

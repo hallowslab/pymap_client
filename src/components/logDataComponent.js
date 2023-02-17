@@ -12,9 +12,12 @@ export function LogDataComponent() {
         : 20000
 
     const fetchData = () => {
-        const APIURL = `/api/v1/tasks/${taskID}/${logID}?tcount=${tailCount}&ttimeout=${tailTimeout}`
+        const APIURL = `/api/v2/tasks/${taskID}/${logID}?tcount=${tailCount}&ttimeout=${tailTimeout}`
         const params = {
-            headers: { accepts: 'application/json', 'Authorization': `Bearer ${localStorage.getItem("token")}` },
+            headers: {
+                accepts: 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
             method: 'GET',
         }
         fetch(APIURL, params)
@@ -22,14 +25,14 @@ export function LogDataComponent() {
                 return data.json()
             })
             .then((res) => {
-                if (res.content) {
-                    setLogData(res.content)
-                } else if (res.error == "ExpiredAccessError") {
-                    alert("Access expired, removing token...")
-                    console.error("Access expired, removing token...")
-                    localStorage.removeItem("token")
-                    navigate("/")
+                if (res.error == 'ExpiredAccessError') {
+                    alert('Access expired, removing token...')
+                    console.error('Access expired, removing token...')
+                    localStorage.removeItem('token')
+                    navigate('/')
                     window.location.reload()
+                } else if (res.content) {
+                    setLogData(res.content)
                 } else {
                     console.error(`API Error: ${res.error} -> ${res.message}`)
                 }
@@ -40,7 +43,6 @@ export function LogDataComponent() {
     useEffect(() => {
         fetchData()
         const dataTimer = setInterval(() => {
-            console.log(timerValue)
             fetchData()
         }, timerValue)
         return () => {
@@ -52,7 +54,12 @@ export function LogDataComponent() {
         <React.Fragment>
             <Stack spacing={2}>
                 <h2>Task ID: {taskID} </h2>
-                <h3>Log file:{' '}<a href={`/api/v1/tasks/${taskID}/${logID}/download`}>{logID}</a></h3>
+                <h3>
+                    Log file:{' '}
+                    <a href={`/api/v1/tasks/${taskID}/${logID}/download`}>
+                        {logID}
+                    </a>
+                </h3>
                 <Box
                     sx={{
                         width: '900',
@@ -94,7 +101,7 @@ export function LogDataComponent() {
                         multiline
                         minRows={4}
                         maxRows={20}
-                        style={{ width: '90%', marginBottom: "1em" }}
+                        style={{ width: '90%', marginBottom: '1em' }}
                     />
                 </Box>
             </Stack>

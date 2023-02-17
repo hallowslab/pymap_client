@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
-
 import { useNavigate, useParams } from 'react-router-dom'
+import authenticatedFetch from '../utils/apiFetcher'
+import handleTokenExpiration from '../utils/handleTokenExpiration'
 
 const columns = [
     {
@@ -35,53 +36,39 @@ export function LogsComponent() {
         ? localStorage.getItem('timerValue')
         : 20000
 
-    const fetchData = () => {
-        const APIURL = `/api/v1/tasks/${taskID}`
+    const fetchData = async () => {
+        const APIURL = `/api/v2/tasks/${taskID}`
         const params = {
-            headers: { accepts: 'application/json', 'Authorization': `Bearer ${localStorage.getItem("token")}` },
+            headers: {
+                accepts: 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
             method: 'GET',
         }
-        console.debug('Fetching API')
-        console.debug('Timer Value')
-        console.debug(timerValue)
-        fetch(APIURL, params)
-            .then((data) => {
-                return data.json()
-            })
-            .then((res) => {
-                console.debug('Res is ')
-                console.debug(res)
-                if (res.logs) {
-                    console.debug('Log Status')
-                    console.debug(res.logsStatus)
-                    setRows(
-                        res.logs?.map((val, index) => {
-                            return { id: index + 1, ...val }
-                        })
-                    )
-                    setTaskStatus(res.status.state)
-                } else if (res.error == "ExpiredAccessError") {
-                    alert("Access expired, removing token...")
-                    console.error("Access expired, removing token...")
-                    localStorage.removeItem("token")
-                    navigate("/")
-                    window.location.reload()
-                } else {
-                    console.error(`API Error: ${res.error} -> ${res.message}`)
-                }
-            })
-            .catch((err) => console.log(`Error: ${err}`))
+        let res = await authenticatedFetch(APIURL, params)
+        if (res.error == 'ExpiredAccessError') {
+            handleTokenExpiration()
+        } else if (res.logs) {
+            setRows(
+                res.logs?.map((val, index) => {
+                    return { id: index + 1, ...val }
+                })
+            )
+            setTaskStatus(res.status.state)
+        } else {
+            console.error(`API Error: ${res.error} -> ${res.message}`)
+        }
     }
 
     useEffect(() => {
         fetchData()
         const dataTimer = setInterval(() => {
-            console.debug("Timer Value",timerValue)
             fetchData()
         }, timerValue)
         return () => {
             clearInterval(dataTimer)
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleOnCellClick = (params) => {
@@ -91,9 +78,10 @@ export function LogsComponent() {
     return (
         <React.Fragment>
             <div style={{ height: '80vh' }}>
-                <h2 style={{ display: 'inline-block' , marginRight: '2em'}}>Task ID: {taskID} </h2>
-                <h2 style={{ display: 'inline-block' }}>State: {taskStatus}</h2>
-
+                <h2 style={{ display: 'inline-block', marginRight: '2em' }}>
+                    Task ID: {taskID}{' '}
+                </h2>                    
+                <h4 style={{ display: 'inline-block' }}>State: {taskStatus}</h4>
                 <DataGrid
                     rows={rows}
                     columns={columns}
