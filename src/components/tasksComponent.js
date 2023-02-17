@@ -37,6 +37,7 @@ const columns = [
 export function TasksComponent() {
     const [tasks, setTasks] = useState([{ id: 0, taskID: 'fetching.....' }])
     const [selectedRows, setSelectedRows] = useState(new Set())
+    const [selectionModel, setSelectionModel] = useState([])
     const timerValue = localStorage.getItem('timerValue')
         ? localStorage.getItem('timerValue')
         : 20000
@@ -79,12 +80,11 @@ export function TasksComponent() {
             fetchData()
         }, timerValue)
         return () => clearInterval(dataTimer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleOnCellClick = (event, row) => {
         if (row.target.type == 'checkbox') {
-            //console.log("Event", event)
-            //console.log("Row", row)
             if (row.target.checked) {
                 setSelectedRows([...new Set([...selectedRows, event.id])])
             } else {
@@ -93,46 +93,81 @@ export function TasksComponent() {
                 ])
             }
         } else {
-            window.open(`${window.location.href}/${event.id}`, '_blank')
+            window.open(`${window.location.href}/${event.id}`)
         }
     }
 
     const handleDelete = async () => {
-        const APIURL = '/api/v2/admin/delete-tasks'
-        const DATA = JSON.stringify({ task_ids: selectedRows })
-        const params = {
-            headers: {
-                'content-type': 'application/json; charset=UTF-8',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            body: DATA,
-            method: 'POST',
-        }
         if (selectedRows.length <= 0) {
             alert('You need to select a task')
         } else {
-            let res = await authenticatedFetch(APIURL, params)
-            console.log(res.message)
+            const confirmed = window.confirm("Are you sure you want to delete the task(s)?")
+            if (confirmed) {
+                const APIURL = '/api/v2/admin/delete-tasks'
+                const DATA = JSON.stringify({ task_ids: selectedRows })
+                const params = {
+                    headers: {
+                        'content-type': 'application/json; charset=UTF-8',
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                    body: DATA,
+                    method: 'POST',
+                }
+                console.debug("Requesting delete of task IDs:", selectedRows)
+                let res = await authenticatedFetch(APIURL, params)
+                alert(JSON.stringify(res.message, null, 2))
+                }
+            }
+        }
+
+    const handleArchive = async () => {
+        if (selectedRows.length <= 0) {
+            alert('You need to select a task')
+        } else {
+            const confirmed = window.confirm("Are you sure you want to archive the task(s)?")
+            if (confirmed) {
+                const APIURL = '/api/v2/admin/archive-tasks'
+                const DATA = JSON.stringify({ task_ids: selectedRows })
+                const params = {
+                    headers: {
+                        'content-type': 'application/json; charset=UTF-8',
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                    body: DATA,
+                    method: 'POST',
+                }
+                let res = await authenticatedFetch(APIURL, params)
+                alert(JSON.stringify(res.message, null, 2))
+            }
         }
     }
 
-    const handleArchive = async () => {
-        const APIURL = '/api/v2/admin/archive-tasks'
-        const DATA = JSON.stringify({ task_ids: selectedRows })
-        const params = {
-            headers: {
-                'content-type': 'application/json; charset=UTF-8',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            body: DATA,
-            method: 'POST',
-        }
+    const handleCancel = async () => {
         if (selectedRows.length <= 0) {
             alert('You need to select a task')
         } else {
-            let res = await authenticatedFetch(APIURL, params)
-            console.log(res.message)
+            const confirmed = window.confirm("Are you sure you want to cancel the task(s)")
+            if (confirmed) {
+                const APIURL = 'api/v2/admin/cancel-tasks'
+                const DATA = JSON.stringify({task_ids: selectedRows})
+                const params = {
+                    headers: {
+                        'content-type': 'application/json; charset=UTF-8',
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                    body: DATA,
+                    method: 'POST',
+                }
+                let res = authenticatedFetch(APIURL, params)
+                alert(JSON.stringify(res.message, null, 2))
+            }
         }
+    }
+
+    const handleSelectionModelChange = (newSelection) => {
+        console.debug("Selected changes", newSelection)
+        setSelectionModel(newSelection)
+        setSelectedRows(newSelection)
     }
 
     //<Stack spacing={2}>
@@ -154,7 +189,10 @@ export function TasksComponent() {
                     <Button color="success" onClick={handleArchive}>
                         Archive
                     </Button>
-                    <Button color="warning" onClick={handleDelete}>
+                    <Button color="warning" onClick={handleCancel}>
+                        Cancel
+                    </Button>
+                    <Button color="error" onClick={handleDelete}>
                         Delete
                     </Button>
                 </div>
@@ -169,6 +207,8 @@ export function TasksComponent() {
                     components={{
                         BaseCheckbox: CheckboxWrapper,
                     }}
+                    onSelectionModelChange={handleSelectionModelChange}
+                    selectionModel={selectionModel}
                 />
             </div>
         </React.Fragment>
