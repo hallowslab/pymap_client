@@ -18,11 +18,6 @@ const columns = [
         width: 200,
     },
     {
-        field: 'domain',
-        headerName: 'Domain',
-        width: 250,
-    },
-    {
         field: 'n_accounts',
         headerName: 'Nº Accounts',
         width: 100,
