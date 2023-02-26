@@ -80,7 +80,7 @@ export function TasksComponent() {
             fetchData()
         }, timerValue)
         return () => clearInterval(dataTimer)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleOnCellClick = (event, row) => {
@@ -101,37 +101,45 @@ export function TasksComponent() {
         if (selectedRows.length <= 0) {
             alert('You need to select a task')
         } else {
-            const confirmed = window.confirm("Are you sure you want to delete the task(s)?")
+            const confirmed = window.confirm(
+                'Are you sure you want to delete the task(s)?'
+            )
             if (confirmed) {
                 const APIURL = '/api/v2/admin/delete-tasks'
                 const DATA = JSON.stringify({ task_ids: selectedRows })
                 const params = {
                     headers: {
                         'content-type': 'application/json; charset=UTF-8',
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token'
+                        )}`,
                     },
                     body: DATA,
                     method: 'POST',
                 }
-                console.debug("Requesting delete of task IDs:", selectedRows)
+                console.debug('Requesting delete of task IDs:', selectedRows)
                 let res = await authenticatedFetch(APIURL, params)
                 alert(JSON.stringify(res.message, null, 2))
-                }
             }
         }
+    }
 
     const handleArchive = async () => {
         if (selectedRows.length <= 0) {
             alert('You need to select a task')
         } else {
-            const confirmed = window.confirm("Are you sure you want to archive the task(s)?")
+            const confirmed = window.confirm(
+                'Are you sure you want to archive the task(s)?'
+            )
             if (confirmed) {
                 const APIURL = '/api/v2/admin/archive-tasks'
                 const DATA = JSON.stringify({ task_ids: selectedRows })
                 const params = {
                     headers: {
                         'content-type': 'application/json; charset=UTF-8',
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token'
+                        )}`,
                     },
                     body: DATA,
                     method: 'POST',
@@ -146,14 +154,18 @@ export function TasksComponent() {
         if (selectedRows.length <= 0) {
             alert('You need to select a task')
         } else {
-            const confirmed = window.confirm("Are you sure you want to cancel the task(s)")
+            const confirmed = window.confirm(
+                'Are you sure you want to cancel the task(s)'
+            )
             if (confirmed) {
                 const APIURL = 'api/v2/admin/cancel-tasks'
-                const DATA = JSON.stringify({task_ids: selectedRows})
+                const DATA = JSON.stringify({ task_ids: selectedRows })
                 const params = {
                     headers: {
                         'content-type': 'application/json; charset=UTF-8',
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        Authorization: `Bearer ${localStorage.getItem(
+                            'token'
+                        )}`,
                     },
                     body: DATA,
                     method: 'POST',
@@ -165,7 +177,7 @@ export function TasksComponent() {
     }
 
     const handleSelectionModelChange = (newSelection) => {
-        console.debug("Selected changes", newSelection)
+        console.debug('Selected changes', newSelection)
         setSelectionModel(newSelection)
         setSelectedRows(newSelection)
     }

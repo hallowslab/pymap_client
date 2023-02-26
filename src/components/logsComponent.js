@@ -68,7 +68,7 @@ export function LogsComponent() {
         return () => {
             clearInterval(dataTimer)
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleOnCellClick = (params) => {
@@ -80,7 +80,7 @@ export function LogsComponent() {
             <div style={{ height: '80vh' }}>
                 <h2 style={{ display: 'inline-block', marginRight: '2em' }}>
                     Task ID: {taskID}{' '}
-                </h2>                    
+                </h2>
                 <h4 style={{ display: 'inline-block' }}>State: {taskStatus}</h4>
                 <DataGrid
                     rows={rows}
