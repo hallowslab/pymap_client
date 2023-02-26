@@ -10,7 +10,6 @@ import {
     Container,
     Button,
     Modal,
-    TextareaAutosize,
     TextField,
 } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
@@ -90,69 +89,17 @@ const ResponsiveAppBar = () => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <Typography
-                        id="modal-modal-title"
-                        variant="h6"
-                        component="h2"
-                    >
-                        Work in progress...
-                    </Typography>
-                    <Typography
-                        id="modal-modal-description"
-                        component="div"
-                        sx={{ mt: 2 }}
-                    >
-                        <div>
-                            You can specify additional arguments here, do not
-                            add newlines or line carriages (Tab/Enter) just one
-                            big string
-                            <div>
-                                EX:{' '}
-                                <code>
-                                    --nossl1 --notls1 --gmail2 --folder
-                                    &quot;INBOX&quot;
-                                </code>
-                            </div>
-                        </div>
-                        <p>
-                            If you need to encase a variable/parameter please
-                            use double quotes &quot; ... &quot; and not single
-                            &apos; ... &apos;
-                        </p>
-                        <p>
-                            Please refer to{' '}
-                            <a
-                                href="https://imapsync.lamiral.info/#doc"
-                                target="_blank"
-                                rel="noreferrer"
-                            >
-                                Imapsync FAQ/Doc
-                            </a>
-                        </p>
-                        <TextareaAutosize
-                            aria-label="textarea for extra arguments"
-                            minRows={5}
-                            placeholder={'--arg1 --arg2'}
-                            style={{
-                                width: '95%',
-                                margin: 'auto',
-                                border: '2px solid #000',
-                            }}
-                            value={uInput}
-                            onInput={(e) => setUInput(e.target.value)}
-                        />
-                        <h2>Other options</h2>
-                        <TextField
-                            id="logs-refresh-timer"
-                            label="Refresh Timer"
-                            helperText="Time between API requests in MS"
-                            defaultValue={timerValue}
-                            onChange={(e) => {
-                                setTimerValue(e.target.value)
-                            }}
-                        />
-                        <Button onClick={saveToLocalStorage}>Save</Button>
-                    </Typography>
+                    <h2>Other options</h2>
+                    <TextField
+                        id="logs-refresh-timer"
+                        label="Refresh Timer"
+                        helperText="Time between API requests in MS"
+                        defaultValue={timerValue}
+                        onChange={(e) => {
+                            setTimerValue(e.target.value)
+                        }}
+                    />
+                    <Button onClick={saveToLocalStorage}>Save</Button>
                 </Box>
             </Modal>
             <AppBar position="static" style={{ marginBottom: '2em' }}>

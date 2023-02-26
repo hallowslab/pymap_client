@@ -7,7 +7,6 @@ import reportWebVitals from './reportWebVitals'
 
 // ROUTES
 import Sync from './routes/sync'
-import Options from './routes/options'
 import Tasks from './routes/tasks'
 import Logs from './routes/logs'
 import LogFile from './routes/logFile'
@@ -21,7 +20,6 @@ ReactDOM.render(
             <Route path="/" element={<App />}>
                 <Route path="/" element={<Intro />} />
                 <Route path="sync" element={<Sync />} />
-                <Route path="options" element={<Options />} />
                 <Route path="tasks" element={<Tasks />} />
                 <Route path="tasks/:taskID" element={<Logs />} />
                 <Route path="tasks/:taskID/:logID" element={<LogFile />} />
