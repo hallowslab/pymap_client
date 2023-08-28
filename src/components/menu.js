@@ -4,16 +4,15 @@ import {
     AppBar,
     Box,
     Toolbar,
-    IconButton,
     Typography,
-    Menu,
     Container,
     Button,
     Modal,
     TextField,
 } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu'
 import { useTranslation } from 'react-i18next'
+
+import { UserList } from './menuUserList'
 
 const style = {
     position: 'absolute',
@@ -49,15 +48,9 @@ const ResponsiveAppBar = () => {
     const [open, setOpen] = useState(false)
     const [uInput, setUInput] = useState('')
     const [timerValue, setTimerValue] = useState(getStoredTimer)
-    const [anchorElNav, setAnchorElNav] = useState(null)
     const handleOpen = () => setOpen(true)
     const handleClose = () => setOpen(false)
-    const handleOpenNavMenu = (event) => {
-        setAnchorElNav(event.currentTarget)
-    }
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null)
-    }
+
     const navigate = useNavigate()
     const { t } = useTranslation(['main'])
 
@@ -113,41 +106,6 @@ const ResponsiveAppBar = () => {
                             Pymap
                         </Typography>
 
-                        <Box
-                            sx={{
-                                flexGrow: 1,
-                                display: { xs: 'flex', md: 'none' },
-                            }}
-                        >
-                            <IconButton
-                                size="large"
-                                aria-label="main menu"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleOpenNavMenu}
-                                color="inherit"
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Menu
-                                id="menu-appbar"
-                                anchorEl={anchorElNav}
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                keepMounted
-                                transformOrigin={{
-                                    vertical: 'top',
-                                    horizontal: 'left',
-                                }}
-                                open={Boolean(anchorElNav)}
-                                onClose={handleCloseNavMenu}
-                                sx={{
-                                    display: { xs: 'block', md: 'none' },
-                                }}
-                            ></Menu>
-                        </Box>
                         <Typography
                             noWrap
                             component="div"
@@ -194,6 +152,7 @@ const ResponsiveAppBar = () => {
                                 Davmail Proxy
                             </Button>
                         </Box>
+                        <UserList/>
                     </Toolbar>
                 </Container>
             </AppBar>
