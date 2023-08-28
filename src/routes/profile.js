@@ -2,6 +2,11 @@ import React from 'react'
 import { Grid, Button, Typography } from '@mui/material'
 
 export default function Profile() {
+
+    const getTokenStatus = ()=>{
+        console.log("status")
+    }
+
     return (
         <Grid container spacing={2} sx={{width: '70%', margin: 'auto'}}>
             <Grid item xs={6}>
@@ -18,7 +23,7 @@ export default function Profile() {
                 </Typography>
             </Grid>
             <Grid item xs={6}>
-                <Button>xs=8</Button>
+                <Button onClick={getTokenStatus}>xs=8</Button>
             </Grid>
         </Grid>
     )

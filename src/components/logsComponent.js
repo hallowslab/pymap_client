@@ -56,7 +56,7 @@ export function LogsComponent() {
             )
             setTaskStatus(res.status.state)
         } else {
-            console.error(`API Error: ${res.error} -> ${res.message}`)
+            console.error(`API Error: ${res.error}`)
         }
     }
 

@@ -11,9 +11,10 @@ import {
     Box,
 } from '@mui/material'
 import Tooltip from '@mui/material/Tooltip'
+import authenticatedFetch from '../utils/apiFetcher'
+import handleTokenExpiration from '../utils/handleTokenExpiration'
 
 export function TransferRaw() {
-    const APIURL = '/api/v2/sync'
     const navigate = useNavigate()
     const [input, setInput] = useState('')
     const [redirecting, setRedirecting] = useState(false)
@@ -21,12 +22,13 @@ export function TransferRaw() {
     const [extraArgs, setExtraArgs] = useState('')
     const [destination, setDestination] = useState('')
     const [dryRun, setDryRun] = useState(false)
-
+    
     const HelpTooltip = `
     Input the accounts and credentials as displayed in the placeholder, you can use the following separators: [ "blank space" | ,]
     `
-
-    const handleChange = () => {
+    
+    const handleChange = async () => {
+        const APIURL = '/api/v2/sync'
         // Split the lines
         if (source === '' || destination === '' || input.length <= 5) {
             alert(
@@ -53,31 +55,18 @@ export function TransferRaw() {
             body: DATA,
             method: 'POST',
         }
-        fetch(APIURL, params)
-            .then((data) => {
-                return data.json()
-            })
-            .then((res) => {
-                if (res.error == 'ExpiredAccessError') {
-                    alert('Access expired, removing token...')
-                    console.error('Access expired, removing token...')
-                    localStorage.removeItem('token')
-                    navigate('/')
-                    window.location.reload()
-                } else if (res.taskID) {
-                    console.log(res)
-                    setRedirecting(true)
-                    setTimeout(() => {
-                        navigate('/tasks/' + res.taskID)
-                    }, 1000)
-                } else {
-                    console.error(`API Error: ${res.error} -> ${res.message}`)
-                }
-            })
-            .catch((err) => {
-                alert('An error has occurred, please check the console')
-                console.error(`Error: ${err}`)
-            })
+        let res = await authenticatedFetch(APIURL, params)
+        if (res.error == 'ExpiredAccessError') {
+            handleTokenExpiration()
+        } else if (res.taskID) {
+            console.log(res)
+            setRedirecting(true)
+            setTimeout(() => {
+                navigate('/tasks/' + res.taskID)
+            }, 1000)
+        } else {
+            console.error(`API Error: ${res.error}`)
+        }            
     }
 
     // The difference is that the onInput event occurs immediately after the value of an element has changed,

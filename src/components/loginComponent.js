@@ -18,19 +18,19 @@ import authenticatedFetch from '../utils/apiFetcher'
 import handleTokenExpiration from '../utils/handleTokenExpiration'
 
 export default function LoginForm(props) {
-    const APIURL = '/api/v2/login'
     const [showPassword, setShowPassword] = React.useState(false)
     const [user, setUser] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
-
+    
     const handleClickShowPassword = () => setShowPassword((show) => !show)
-
+    
     const handleMouseDownPassword = (event) => {
         event.preventDefault()
     }
-
+    
     const handleCall = async () => {
+        const APIURL = '/api/v2/login'
         if (user == '' || password == '') {
             alert(
                 'Your input seems to be invalid, please check the console log'
@@ -54,7 +54,7 @@ export default function LoginForm(props) {
             navigate('/sync')
             window.location.reload()
         } else {
-            console.log(`API Error[${res.error}]: ${res.message}`)
+            console.log(`API Error: ${res.error}`)
         }
     }
 

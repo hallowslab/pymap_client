@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Stack, TextField, Box, Button } from '@mui/material'
 import { useParams } from 'react-router-dom'
+import authenticatedFetch from '../utils/apiFetcher'
+import handleTokenExpiration from '../utils/handleTokenExpiration'
 
 export function LogDataComponent() {
     let { taskID, logID } = useParams()
@@ -8,10 +10,11 @@ export function LogDataComponent() {
     const [tailCount, setTailCount] = useState(100)
     const [tailTimeout, setTailTimeout] = useState(5)
     const timerValue = localStorage.getItem('timerValue')
-        ? localStorage.getItem('timerValue')
-        : 20000
+    ? localStorage.getItem('timerValue')
+    : 20000
+    const DOWNLOADURL = `/api/v2/tasks/${taskID}/${logID}/download`
 
-    const fetchData = () => {
+    const fetchData = async () => {
         const APIURL = `/api/v2/tasks/${taskID}/${logID}?tcount=${tailCount}&ttimeout=${tailTimeout}`
         const params = {
             headers: {
@@ -20,24 +23,18 @@ export function LogDataComponent() {
             },
             method: 'GET',
         }
-        fetch(APIURL, params)
-            .then((data) => {
-                return data.json()
-            })
-            .then((res) => {
-                if (res.error == 'ExpiredAccessError') {
-                    alert('Access expired, removing token...')
-                    console.error('Access expired, removing token...')
-                    localStorage.removeItem('token')
-                    navigate('/')
-                    window.location.reload()
-                } else if (res.content) {
-                    setLogData(res.content)
-                } else {
-                    console.error(`API Error: ${res.error} -> ${res.message}`)
-                }
-            })
-            .catch((err) => console.log(`Error: ${err}`))
+        let res = await authenticatedFetch(APIURL, params)
+        if (res.error == 'ExpiredAccessError') {
+            handleTokenExpiration()
+        } else if (res.content) {
+            if (res.proc_error) {
+                console.error(`Error: ${res.proc_error}`)
+            }
+            setLogData(res.content)
+        } else {
+            console.error(`API Error: ${res.error}`)
+
+        }
     }
 
     useEffect(() => {
@@ -56,7 +53,7 @@ export function LogDataComponent() {
                 <h2>Task ID: {taskID} </h2>
                 <h3>
                     Log file:{' '}
-                    <a href={`/api/v1/tasks/${taskID}/${logID}/download`}>
+                    <a href={DOWNLOADURL}>
                         {logID}
                     </a>
                 </h3>

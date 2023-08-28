@@ -65,7 +65,7 @@ export function TasksComponent() {
         } else if (res.error == 'ExpiredAccessError') {
             handleTokenExpiration()
         } else {
-            console.error(`API Error: ${res.error} -> ${res.message}`)
+            console.error(`API Error: ${res.error}`)
         }
     }
 

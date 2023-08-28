@@ -24,7 +24,7 @@ function App() {
         if (res.error == 'InvalidTokenHeader') {
             console.debug('No token in header')
             return
-        } else if (res.error == 'ExpiredAccessError') {
+        } else if (res.error == 'ExpiredAccessError' || res.error == 'BlacklistedError') {
             console.debug('Removing expired token')
             handleTokenExpiration()
         } else if (res.message) {
