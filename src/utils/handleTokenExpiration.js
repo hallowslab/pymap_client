@@ -1,3 +1,4 @@
+// Function that handles "logout"/token expiry functionality
 export default function handleTokenExpiration() {
     alert('Access expired, removing token...')
     console.debug('Access expired, removing token...')

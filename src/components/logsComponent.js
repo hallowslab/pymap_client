@@ -38,14 +38,7 @@ export function LogsComponent() {
 
     const fetchData = async () => {
         const APIURL = `/api/v2/tasks/${taskID}`
-        const params = {
-            headers: {
-                accepts: 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            method: 'GET',
-        }
-        let res = await authenticatedFetch(APIURL, params)
+        let res = await authenticatedFetch(APIURL)
         if (res.error == 'ExpiredAccessError') {
             handleTokenExpiration()
         } else if (res.logs) {

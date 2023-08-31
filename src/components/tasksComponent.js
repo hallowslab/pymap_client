@@ -39,14 +39,7 @@ export function TasksComponent() {
 
     const fetchData = async () => {
         const APIURL = '/api/v2/tasks'
-        const params = {
-            headers: {
-                accepts: 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            method: 'GET',
-        }
-        let res = await authenticatedFetch(APIURL, params)
+        let res = await authenticatedFetch(APIURL)
         if (res.tasks) {
             let new_tasks = res.tasks
             new_tasks = new_tasks.filter((task) => {
@@ -101,19 +94,9 @@ export function TasksComponent() {
             )
             if (confirmed) {
                 const APIURL = '/api/v2/admin/delete-tasks'
-                const DATA = JSON.stringify({ task_ids: selectedRows })
-                const params = {
-                    headers: {
-                        'content-type': 'application/json; charset=UTF-8',
-                        Authorization: `Bearer ${localStorage.getItem(
-                            'token'
-                        )}`,
-                    },
-                    body: DATA,
-                    method: 'POST',
-                }
+                const DATA = { task_ids: selectedRows }
                 console.debug('Requesting delete of task IDs:', selectedRows)
-                let res = await authenticatedFetch(APIURL, params)
+                let res = await authenticatedFetch(APIURL, DATA, 'POST')
                 alert(JSON.stringify(res.message, null, 2))
             }
         }
@@ -128,18 +111,8 @@ export function TasksComponent() {
             )
             if (confirmed) {
                 const APIURL = '/api/v2/admin/archive-tasks'
-                const DATA = JSON.stringify({ task_ids: selectedRows })
-                const params = {
-                    headers: {
-                        'content-type': 'application/json; charset=UTF-8',
-                        Authorization: `Bearer ${localStorage.getItem(
-                            'token'
-                        )}`,
-                    },
-                    body: DATA,
-                    method: 'POST',
-                }
-                let res = await authenticatedFetch(APIURL, params)
+                const DATA = { task_ids: selectedRows }
+                let res = await authenticatedFetch(APIURL, DATA, 'POST')
                 alert(JSON.stringify(res.message, null, 2))
             }
         }
@@ -154,18 +127,8 @@ export function TasksComponent() {
             )
             if (confirmed) {
                 const APIURL = 'api/v2/admin/cancel-tasks'
-                const DATA = JSON.stringify({ task_ids: selectedRows })
-                const params = {
-                    headers: {
-                        'content-type': 'application/json; charset=UTF-8',
-                        Authorization: `Bearer ${localStorage.getItem(
-                            'token'
-                        )}`,
-                    },
-                    body: DATA,
-                    method: 'POST',
-                }
-                let res = authenticatedFetch(APIURL, params)
+                const DATA = { task_ids: selectedRows }
+                let res = authenticatedFetch(APIURL, DATA, 'POST')
                 alert(JSON.stringify(res.message, null, 2))
             }
         }

@@ -12,18 +12,10 @@ export function LogDataComponent() {
     const timerValue = localStorage.getItem('timerValue')
     ? localStorage.getItem('timerValue')
     : 20000
-    const DOWNLOADURL = `/api/v2/tasks/${taskID}/${logID}/download`
 
     const fetchData = async () => {
         const APIURL = `/api/v2/tasks/${taskID}/${logID}?tcount=${tailCount}&ttimeout=${tailTimeout}`
-        const params = {
-            headers: {
-                accepts: 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            method: 'GET',
-        }
-        let res = await authenticatedFetch(APIURL, params)
+        let res = await authenticatedFetch(APIURL)
         if (res.error == 'ExpiredAccessError') {
             handleTokenExpiration()
         } else if (res.content) {
@@ -33,8 +25,33 @@ export function LogDataComponent() {
             setLogData(res.content)
         } else {
             console.error(`API Error: ${res.error}`)
-
         }
+    }
+
+    const handleDownload = () =>{
+        const DOWNLOADURL = `/api/v2/tasks/${taskID}/${logID}/download`
+        const params = {
+            headers: {
+                accepts: 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+            method: 'GET',
+        }
+        fetch(DOWNLOADURL, params)
+        .then(response => response.blob())
+        .then(blob => {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = logID;  // File name
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(error => {
+            console.error('Error downloading file:', error);
+        });
     }
 
     useEffect(() => {
@@ -53,9 +70,9 @@ export function LogDataComponent() {
                 <h2>Task ID: {taskID} </h2>
                 <h3>
                     Log file:{' '}
-                    <a href={DOWNLOADURL}>
+                    <Button onClick={handleDownload}>
                         {logID}
-                    </a>
+                    </Button>
                 </h3>
                 <Box
                     sx={{

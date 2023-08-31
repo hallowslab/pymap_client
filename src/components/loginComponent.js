@@ -14,7 +14,6 @@ import {
 } from '@mui/material'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
-import authenticatedFetch from '../utils/apiFetcher'
 import handleTokenExpiration from '../utils/handleTokenExpiration'
 
 export default function LoginForm(props) {
@@ -44,17 +43,18 @@ export default function LoginForm(props) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ identifier: user, password: password }),
         }
-        let res = await authenticatedFetch(APIURL, params)
-        if (res.error) {
+        const response = await fetch(APIURL, params)
+        let data = await response.json()
+        if (data.error) {
             handleTokenExpiration()
             props.tokenFunc('')
-        } else if (res.access_token) {
-            localStorage.setItem('token', res.access_token)
-            props.tokenFunc(res.access_token)
+        } else if (data.access_token) {
+            localStorage.setItem('token', data.access_token)
+            props.tokenFunc(data.access_token)
             navigate('/sync')
             window.location.reload()
         } else {
-            console.log(`API Error: ${res.error}`)
+            console.log(`API Error: ${data.error}`)
         }
     }
 

@@ -29,14 +29,7 @@ export const UserList = () => {
     
     const performLogout = async ()=>{
         const APIURL = '/api/v2/blacklist-token'
-        const params = {
-            headers: {
-                'content-type': 'application/json; charset=UTF-8',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            method: 'GET',
-        }
-        let res = await authenticatedFetch(APIURL, params)
+        let res = await authenticatedFetch(APIURL)
         if (res.error == 'ExpiredAccessError') {
             handleTokenExpiration()
         } else if (res.token_allowed) {

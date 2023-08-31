@@ -11,7 +11,7 @@ import Tasks from './routes/tasks'
 import Logs from './routes/logs'
 import LogFile from './routes/logFile'
 import Intro from './routes/intro'
-import Profile from './routes/profile'
+import ProfilePage from './routes/profile'
 
 import './i18n'
 
@@ -24,7 +24,7 @@ ReactDOM.render(
                 <Route path="tasks" element={<Tasks />} />
                 <Route path="tasks/:taskID" element={<Logs />} />
                 <Route path="tasks/:taskID/:logID" element={<LogFile />} />
-                <Route path="profile" element={<Profile/>}/>
+                <Route path="profile" element={<ProfilePage/>}/>
             </Route>
         </Routes>
     </BrowserRouter>,

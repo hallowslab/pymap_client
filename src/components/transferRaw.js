@@ -39,23 +39,15 @@ export function TransferRaw() {
             )
             return
         }
-        const DATA = JSON.stringify({
+        const DATA = {
             destination: destination,
             source: source,
             input: input.split(/\r?\n/),
             dry_run: dryRun,
             extra_args: extraArgs,
-        })
-        // make API POST
-        const params = {
-            headers: {
-                'content-type': 'application/json; charset=UTF-8',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            body: DATA,
-            method: 'POST',
         }
-        let res = await authenticatedFetch(APIURL, params)
+        // make API POST
+        let res = await authenticatedFetch(APIURL, DATA, 'POST')
         if (res.error == 'ExpiredAccessError') {
             handleTokenExpiration()
         } else if (res.taskID) {
