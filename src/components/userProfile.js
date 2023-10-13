@@ -1,28 +1,25 @@
-import React from 'react'
+import React, {useContext, useState} from 'react'
 import { Grid, Button, Typography } from '@mui/material'
-import authenticatedFetch from '../utils/apiFetcher'
-import handleTokenExpiration from '../utils/handleTokenExpiration'
+import { UserRolesContext } from '../utils/userRolesProvider';
+import { useNavigate } from 'react-router-dom';
+//import authenticatedFetch from '../utils/apiFetcher'
+//import handleTokenExpiration from '../utils/handleTokenExpiration'
+
 
 export default function UserProfile() {
-    //const [userList, setUserList] = useState();
+    const [openDashboard, setOpenDashboard] = useState(false)
+    const { userRoles } = useContext(UserRolesContext);
+    const navigate = useNavigate();
 
-
-    const handleClick = async () => {
-        const APIURL = '/api/v2/check-token'
-        let res = await authenticatedFetch(APIURL)
-
-        if (res.error == 'ExpiredAccessError') {
-            handleTokenExpiration()
-        } else if (res) {
-            console.log(res)
+    
+    const handleRedirect = () => {
+        setOpenDashboard(!openDashboard)
+        if (openDashboard) {
+            navigate("admin")
         } else {
-            console.error(`API Error: ${res.error}`)
+            navigate("/profile")
         }
     }
-
-    //const adminSection = () => {
-    //    const APIURL = "/api/v2/admin/users"
-    //}
 
     return (
         <Grid container spacing={2} sx={{width: '70%', margin: 'auto'}}>
@@ -37,7 +34,7 @@ export default function UserProfile() {
                 </Typography>
             </Grid>
             <Grid item xs={6}>
-                <Button>Open Dialog</Button>
+                <Button onClick={()=>{console.log('User roles:', userRoles)}}>Open Dialog</Button>
             </Grid>
             <Grid item xs={6}>
                 <Typography variant='h6'>
@@ -45,8 +42,16 @@ export default function UserProfile() {
                 </Typography>
             </Grid>
             <Grid item xs={6}>
-                <Button onClick={handleClick}>Open Dialog</Button>
+                <Button >Open Dialog</Button>
             </Grid>
+            <Grid item xs={12}>
+                {userRoles && userRoles.includes('admin') ? (
+                    <Button onClick={handleRedirect}>Admin dashboard</Button>
+                ) : (
+                    <span />
+                )}
+            </Grid>
+                    
         </Grid>
     )
 }
