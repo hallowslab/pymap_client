@@ -1,3 +1,4 @@
+import jwt_decode from 'jwt-decode'
 import React, { useState, useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import './App.css'
@@ -6,21 +7,16 @@ import Footer from './components/footer'
 import LoginForm from './components/loginComponent'
 import authenticatedFetch from './utils/apiFetcher'
 import handleTokenExpiration from './utils/handleTokenExpiration'
+import { useUserRoles } from './utils/userRolesProvider'
 
 function App() {
     const [token, setToken] = useState(localStorage.getItem('token'))
     const hbTimeout = 60000
+    const { setUserRoles } = useUserRoles();// Access userRoles from context
 
     const heartbeat = async () => {
         const APIURL = '/api/v2/heartbeat'
-        const params = {
-            headers: {
-                accepts: 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-            method: 'GET',
-        }
-        const res = await authenticatedFetch(APIURL, params)
+        const res = await authenticatedFetch(APIURL)
         if (res.error == 'InvalidTokenHeader') {
             console.debug('No token in header')
             return
@@ -43,6 +39,13 @@ function App() {
         }, hbTimeout)
         return () => clearInterval(dataTimer)
     }, [])
+
+    useEffect(() => {
+        if (token) {
+          const decoded = jwt_decode(token);
+          setUserRoles(decoded.rls);
+        }
+      }, [token]);
 
     if (token) {
         return (

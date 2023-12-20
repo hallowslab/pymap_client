@@ -14,12 +14,14 @@ export default async function authenticatedFetch(url, body=undefined, method='GE
     }
 
     if (body !== undefined) {
-        params.body = JSON.stringify(body);
+        params.body = body
     }
 
     try {
         const response = await fetch(url, params)
+        console.debug("raw data",response)
         let data = await response.json()
+        console.debug("jdata",data)
         if (data.error === undefined) {
             data.error = false
         }

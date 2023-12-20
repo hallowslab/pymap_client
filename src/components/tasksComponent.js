@@ -5,6 +5,8 @@ import authenticatedFetch from '../utils/apiFetcher'
 import handleTokenExpiration from '../utils/handleTokenExpiration'
 import { Button } from '@mui/material'
 
+import { handleArchive,handleCancel,handleDelete } from '../utils/taskManagement'
+
 const columns = [
     { field: 'id', headerName: 'ID', width: 300 },
     {
@@ -85,54 +87,6 @@ export function TasksComponent() {
         }
     }
 
-    const handleDelete = async () => {
-        if (selectedRows.length <= 0) {
-            alert('You need to select a task')
-        } else {
-            const confirmed = window.confirm(
-                'Are you sure you want to delete the task(s)?'
-            )
-            if (confirmed) {
-                const APIURL = '/api/v2/admin/delete-tasks'
-                const DATA = { task_ids: selectedRows }
-                console.debug('Requesting delete of task IDs:', selectedRows)
-                let res = await authenticatedFetch(APIURL, DATA, 'POST')
-                alert(JSON.stringify(res.message, null, 2))
-            }
-        }
-    }
-
-    const handleArchive = async () => {
-        if (selectedRows.length <= 0) {
-            alert('You need to select a task')
-        } else {
-            const confirmed = window.confirm(
-                'Are you sure you want to archive the task(s)?'
-            )
-            if (confirmed) {
-                const APIURL = '/api/v2/admin/archive-tasks'
-                const DATA = { task_ids: selectedRows }
-                let res = await authenticatedFetch(APIURL, DATA, 'POST')
-                alert(JSON.stringify(res.message, null, 2))
-            }
-        }
-    }
-
-    const handleCancel = async () => {
-        if (selectedRows.length <= 0) {
-            alert('You need to select a task')
-        } else {
-            const confirmed = window.confirm(
-                'Are you sure you want to cancel the task(s)'
-            )
-            if (confirmed) {
-                const APIURL = 'api/v2/admin/cancel-tasks'
-                const DATA = { task_ids: selectedRows }
-                let res = authenticatedFetch(APIURL, DATA, 'POST')
-                alert(JSON.stringify(res.message, null, 2))
-            }
-        }
-    }
 
     const handleSelectionModelChange = (newSelection) => {
         console.debug('Selected changes', newSelection)
@@ -156,13 +110,13 @@ export function TasksComponent() {
                         paddingBottom: 20,
                     }}
                 >
-                    <Button color="success" onClick={handleArchive}>
+                    <Button color="success" onClick={async()=>{await handleArchive(selectedRows)}}>
                         Archive
                     </Button>
-                    <Button color="warning" onClick={handleCancel}>
+                    <Button color="warning" onClick={async()=>{await handleCancel(selectedRows)}}>
                         Cancel
                     </Button>
-                    <Button color="error" onClick={handleDelete}>
+                    <Button color="error" onClick={async()=>{await handleDelete(selectedRows)}}>
                         Delete
                     </Button>
                 </div>
