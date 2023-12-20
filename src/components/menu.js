@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-import { UserList } from './menuUserList'
+import { UserMenu } from './menuUser'
 
 const style = {
     position: 'absolute',
@@ -152,7 +152,7 @@ const ResponsiveAppBar = () => {
                                 Davmail Proxy
                             </Button>
                         </Box>
-                        <UserList/>
+                        <UserMenu/>
                     </Toolbar>
                 </Container>
             </AppBar>
